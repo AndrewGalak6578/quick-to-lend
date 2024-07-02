@@ -12,16 +12,40 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('guests', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->id();
-            $table->boolean('is_live');
+            $table->string('residential_status')->nullable();
+            $table->integer('address_years')->nullable();
+            $table->string('country')->nullable();
+            $table->string('city')->nullable();
+            $table->string('address')->nullable();
+            $table->string('zip_code')->nullable();
+            $table->string('social_number')->nullable();
+            $table->string('cell_phone')->nullable();
+            $table->string('work_phone')->nullable();
+            $table->string('email')->nullable();
+            $table->boolean('is_live')->nullable();
             $table->string('name')->nullable();
+            $table->boolean('military_service')->nullable();
             $table->string('state')->nullable();
             $table->date('date_of_birth')->nullable();
-            $table->unsignedInteger('post_index')->nullable();
-            $table->unsignedBigInteger('credit_card_id')->nullable();
-            $table->unsignedBigInteger('documents_id')->nullable();
-            $table->timestamps();
+            $table->string('post_index')->nullable();
+            $table->string('unique_token')->unique();
+            $table->unsignedBigInteger('bank_id');
+            $table->unsignedBigInteger('job_info_id');
+            $table->unsignedBigInteger('documents_id');
 
+            // IDX
+            $table->index('bank_id', 'guests_table_bank_idx');
+            $table->index('job_info_id', 'guests_table_job_info_idx');
+            $table->index('documents_id', 'guests_table_documents_idx');
+
+            // FK
+            $table->foreign('bank_id', 'guests_table_bank_fk')->references('id')->on('bank_data');
+            $table->foreign('job_info_id', 'guests_table_job_info_fk')->references('id')->on('job_info');
+            $table->foreign('documents_id', 'guests_table_documents_fk')->references('id')->on('documents');
+
+            $table->timestamps();
             $table->softDeletes();
         });
     }
