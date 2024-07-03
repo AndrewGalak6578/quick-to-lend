@@ -1,6 +1,10 @@
+<div class="mb-2 ">
+    <h3>Пользовательская информация</h3>
+</div>
 <form action="{{ route('guest.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="form-group w-25">
+        <label for="date_of_birth">Имя</label>
         <input type="text" class="form-control" name="name" placeholder="Имя пользователя"
                value="{{ old('name') }}"
         >

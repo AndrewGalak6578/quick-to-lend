@@ -25,8 +25,15 @@
             <div class="container-fluid">
                 <!-- Small boxes (Stat box) -->
                 <div class="row">
-                    <div class="col-12">
-                        @include('test.guest.forms.guest-create')
+                    <div class="col-6">
+                            @include('test.guest.forms.guest-create')
+
+
+                    </div>
+                    <div class="col-6">
+
+
+                            @include('test.guest.forms.bank-create')
                     </div>
                 </div>
                 <!-- /.row -->
