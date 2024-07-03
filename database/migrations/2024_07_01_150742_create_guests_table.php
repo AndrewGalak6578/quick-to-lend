@@ -14,26 +14,36 @@ return new class extends Migration
         Schema::create('guests', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id();
-            $table->string('residential_status')->nullable();
-            $table->integer('address_years')->nullable();
-            $table->string('country')->nullable();
-            $table->string('city')->nullable();
-            $table->string('address')->nullable();
-            $table->string('zip_code')->nullable();
-            $table->string('social_number')->nullable();
-            $table->string('cell_phone')->nullable();
-            $table->string('work_phone')->nullable();
-            $table->string('email')->nullable();
-            $table->boolean('is_live')->nullable();
-            $table->string('name')->nullable();
-            $table->boolean('military_service')->nullable();
-            $table->string('state')->nullable();
-            $table->date('date_of_birth')->nullable();
-            $table->string('post_index')->nullable();
-            $table->string('unique_token')->unique();
-            $table->unsignedBigInteger('bank_id');
-            $table->unsignedBigInteger('job_info_id');
-            $table->unsignedBigInteger('documents_id');
+            // Основная информация о пользователе
+            $table->string('name')->nullable(); // Имя пользователя
+            $table->date('date_of_birth')->nullable(); // Дата рождения
+            $table->string('email')->nullable(); // Электронная почта
+            $table->string('social_number')->nullable(); // Социальный номер
+
+            // Контактная информация
+            $table->string('cell_phone')->nullable(); // Мобильный телефон
+            $table->string('work_phone')->nullable(); // Рабочий телефон
+
+            // Адресная информация
+            $table->string('country')->nullable(); // Страна
+            $table->string('state')->nullable(); // Штат/Регион
+            $table->string('city')->nullable(); // Город
+            $table->string('address')->nullable(); // Адрес
+            $table->string('zip_code')->nullable(); // Почтовый индекс
+            $table->string('post_index')->nullable(); // Дополнительный индекс
+
+            // Прочая информация
+            $table->boolean('is_live')->nullable(); // Живой ли пользователь
+            $table->boolean('military_service')->nullable(); // Военная служба
+            $table->string('residential_status')->nullable(); // Статус проживания
+            $table->integer('address_years')->nullable(); // Количество лет по адресу
+
+            // Уникальный токен
+            $table->string('unique_token')->unique(); // Уникальный токен
+
+            $table->unsignedBigInteger('bank_id')->nullable();
+            $table->unsignedBigInteger('job_info_id')->nullable();
+            $table->unsignedBigInteger('documents_id')->nullable();
 
             // IDX
             $table->index('bank_id', 'guests_table_bank_idx');
