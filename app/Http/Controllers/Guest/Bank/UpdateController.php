@@ -10,8 +10,9 @@ class UpdateController extends Controller
 {
     public function __invoke(UpdateRequest $request, Guest $guest)
     {
-        $guest->update(["name" => "old one"]);
+        $data = $request->validated();
+        $guest->update($data);
         $guest->fresh();
-        return $guest->name;
+        return redirect()->route('guest.index');
     }
 }

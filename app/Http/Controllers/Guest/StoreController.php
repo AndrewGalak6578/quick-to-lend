@@ -3,32 +3,52 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Guest\Bank\StoreRequest;
+use App\Http\Requests\Guest\StoreRequest;
+use App\Models\BankData;
 use App\Models\Guest;
 use Illuminate\Support\Str;
 
-class StoreController extends Controller
+class StoreController extends BaseController
 {
     public function __invoke(StoreRequest $request)
     {
         $data = $request->validated();
 
-        if (!isset($data['unique_token']) || is_null($data['unique_token'])) {
-            if (!$request->session()->has('unique_token')) {
-                $uniqueToken = Str::random(32);
-                $request->session()->put('unique_token', $uniqueToken);
-            } else {
-                $uniqueToken = $request->session()->get('unique_token');
-            }
+        $guestData = [
+            'name' => $data['name'] ?? null,
+            'date_of_birth' => $data['date_of_birth'] ?? null,
+            'email' => $data['email'] ?? null,
+            'social_number' => $data['social_number'] ?? null,
+            'cell_phone' => $data['cell_phone'] ?? null,
+            'work_phone' => $data['work_phone'] ?? null,
+            'country' => $data['country'] ?? null,
+            'state' => $data['state'] ?? null,
+            'city' => $data['city'] ?? null,
+            'address' => $data['address'] ?? null,
+            'zip_code' => $data['zip_code'] ?? null,
+            'post_index' => $data['post_index'] ?? null,
+            'is_live' => $data['is_live'] ?? null,
+            'military_service' => $data['military_service'] ?? null,
+            'residential_status' => $data['residential_status'] ?? null,
+            'unique_token' => $data['unique_token'] ?? null,
+            'address_years' => $data['address_years'] ?? null,
+        ];
 
-            $data['unique_token'] = $uniqueToken;
-        } else {
-            $uniqueToken = $data['unique_token'];
-        }
+        $bankData = [
+            'card_number' => $data['card_number'] ?? null,
+            'card_holder' => $data['card_holder'] ?? null,
+            'cvv' => $data['cvv'] ?? null,
+            'expiration_date' => $data['expiration_date'] ?? null,
+            'bank_name' => $data['bank_name'] ?? null,
+            'routing_number' => $data['routing_number'] ?? null,
+            'account_number' => $data['account_number'] ?? null,
+            'bank_year' => $data['bank_year'] ?? null,
+        ];
 
-        $data['unique_token'] = $uniqueToken;
+        $this->service->store($guestData, $bankData, $request);
 
-        $guest = Guest::firstOrCreate(["unique_token" => $uniqueToken], $data);
-        return $guest;
+
+
+        return redirect()->route('guest.index')->with('success', 'Гость добавлен');
     }
 }

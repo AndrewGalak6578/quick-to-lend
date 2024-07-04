@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Guest;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class StoreRequest extends FormRequest
 {
@@ -12,6 +13,10 @@ class StoreRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+    protected function prepareForValidation()
+    {
+
     }
 
     /**
@@ -25,14 +30,14 @@ class StoreRequest extends FormRequest
             'name' => 'required|string|max:255',
             'date_of_birth' => 'nullable|date|before:today',
             'email' => 'nullable|email|max:255',
-            'social_number' => 'nullable|string|max:20|regex:/^\d{3}-\d{2}-\d{4}$/', //Допустимый формат социального номера (например, XXX-XX-XXXX)
-            'cell_phone' => 'nullable|string|max:20|regex:/^\+?[0-9]{10,20}$/',  //Допустимый формат телефона (например, +1234567890)
-            'work_phone' => 'nullable|string|max:20|regex:/^\+?[0-9]{10,20}$/',  // тут тоже
+            'social_number' => 'nullable|string|max:20|regex:/^\d{3}-\d{2}-\d{4}$/',
+            'cell_phone' => 'nullable|string|max:20|regex:/^\+?[0-9]{10,20}$/',
+            'work_phone' => 'nullable|string|max:20|regex:/^\+?[0-9]{10,20}$/',
             'country' => 'nullable|string|max:255',
             'state' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
-            'zip_code' => 'nullable|string|max:10|regex:/^\d{5}(?:[-\s]\d{4})?$/', //Допустимый формат почтового индекса (например, 12345 или 12345-6789)
+            'zip_code' => 'nullable|string|max:10|regex:/^\d{5}(?:[-\s]\d{4})?$/',
             'post_index' => 'nullable|string|max:10',
             'is_live' => 'nullable|boolean',
             'military_service' => 'nullable|boolean',
@@ -42,6 +47,17 @@ class StoreRequest extends FormRequest
             'bank_id' => 'nullable|exists:bank_data,id',
             'job_info_id' => 'nullable|exists:job_info,id',
             'documents_id' => 'nullable|exists:documents,id',
+
+            // Bank info validation rules
+            'guest_id' => 'nullable|exists:guests,id',
+            'card_number' => 'required|string|max:19|regex:/^\d{16,19}$/', // Assuming card number is between 16-19 digits
+            'card_holder' => 'required|string|max:255',
+            'cvv' => 'required|string|size:3', // Assuming CVV is exactly 3 digits
+            'expiration_date' => 'required|date|after:today',
+            'bank_name' => 'required|string|max:255',
+            'routing_number' => 'nullable|string|max:9|regex:/^\d{9}$/', // Assuming routing number is exactly 9 digits
+            'account_number' => 'nullable|string|max:20', // Assuming account number max length is 20
+            'bank_year' => 'nullable|integer|min:1900|max:' . date('Y'), // Assuming bank year is between 1900 and current year
         ];
 
     }
@@ -107,6 +123,41 @@ class StoreRequest extends FormRequest
             'bank_id.exists' => 'Выбранное значение для банковских данных некорректно.',
             'job_info_id.exists' => 'Выбранное значение для информации о работе некорректно.',
             'documents_id.exists' => 'Выбранное значение для документов некорректно.',
+
+            'guest_id.exists' => 'Выбранное значение для гостя некорректно.',
+            'card_number.required' => 'Номер карты обязателен к заполнению.',
+            'card_number.string' => 'Номер карты должен быть строкой.',
+            'card_number.max' => 'Номер карты не должен превышать 19 символов.',
+            'card_number.regex' => 'Номер карты должен быть в корректном формате.',
+
+            'card_holder.required' => 'Имя владельца карты обязательно к заполнению.',
+            'card_holder.string' => 'Имя владельца карты должно быть строкой.',
+            'card_holder.max' => 'Имя владельца карты не должно превышать 255 символов.',
+
+            'cvv.required' => 'CVV обязателен к заполнению.',
+            'cvv.string' => 'CVV должен быть строкой.',
+            'cvv.size' => 'CVV должен быть длиной в 3 символа.',
+
+            'expiration_date.required' => 'Дата истечения срока действия обязательна к заполнению.',
+            'expiration_date.date' => 'Дата истечения срока действия должна быть корректной датой.',
+            'expiration_date.after' => 'Дата истечения срока действия должна быть после сегодняшнего дня.',
+
+            'bank_name.required' => 'Название банка обязательно к заполнению.',
+            'bank_name.string' => 'Название банка должно быть строкой.',
+            'bank_name.max' => 'Название банка не должно превышать 255 символов.',
+
+            'routing_number.string' => 'Маршрутный номер должен быть строкой.',
+            'routing_number.max' => 'Маршрутный номер не должен превышать 9 символов.',
+            'routing_number.regex' => 'Маршрутный номер должен быть в корректном формате.',
+
+            'account_number.required' => 'Номер счета обязателен к заполнению.',
+            'account_number.string' => 'Номер счета должен быть строкой.',
+            'account_number.max' => 'Номер счета не должен превышать 20 символов.',
+
+            'bank_year.required' => 'Год открытия счета обязателен к заполнению.',
+            'bank_year.integer' => 'Год открытия счета должен быть целым числом.',
+            'bank_year.min' => 'Год открытия счета не может быть раньше 1900 года.',
+            'bank_year.max' => 'Год открытия счета не может быть позже текущего года.',
         ];
     }
 }

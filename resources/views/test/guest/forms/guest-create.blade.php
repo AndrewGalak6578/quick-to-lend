@@ -1,8 +1,4 @@
-<div class="mb-2 ">
-    <h3>Пользовательская информация</h3>
-</div>
-<form action="{{ route('guest.store') }}" method="POST" enctype="multipart/form-data">
-    @csrf
+
     <div class="form-group w-25">
         <label for="date_of_birth">Имя</label>
         <input type="text" class="form-control" name="name" placeholder="Имя пользователя"
@@ -30,7 +26,8 @@
 
     <div class="form-group w-25">
         <label for="social_number">Социальный номер</label>
-        <input type="text" class="form-control" name="social_number" placeholder="078-05-1120" value="{{ old('social_number') }}">
+        <input type="text" class="form-control" name="social_number" placeholder="078-05-1120"
+               value="{{ old('social_number') }}">
         @error('social_number')
         <div class="text-danger">{{ $message }}</div>
         @enderror
@@ -38,7 +35,8 @@
 
     <div class="form-group w-25">
         <label for="cell_phone">Мобильный телефон</label>
-        <input type="text" class="form-control" name="cell_phone" placeholder="+77777777777" value="{{ old('cell_phone') }}">
+        <input type="text" class="form-control" name="cell_phone" placeholder="+77777777777"
+               value="{{ old('cell_phone') }}">
         @error('cell_phone')
         <div class="text-danger">{{ $message }}</div>
         @enderror
@@ -46,7 +44,8 @@
 
     <div class="form-group w-25">
         <label for="work_phone">Рабочий телефон</label>
-        <input type="text" class="form-control" name="work_phone" placeholder="Рабочий телефон" value="{{ old('work_phone') }}">
+        <input type="text" class="form-control" name="work_phone" placeholder="Рабочий телефон"
+               value="{{ old('work_phone') }}">
         @error('work_phone')
         <div class="text-danger">{{ $message }}</div>
         @enderror
@@ -86,7 +85,8 @@
 
     <div class="form-group w-25">
         <label for="zip_code">Почтовый индекс</label>
-        <input type="text" class="form-control" name="zip_code" placeholder="например, 12345 или 12345-6789" value="{{ old('zip_code') }}">
+        <input type="text" class="form-control" name="zip_code" placeholder="например, 12345 или 12345-6789"
+               value="{{ old('zip_code') }}">
         @error('zip_code')
         <div class="text-danger">{{ $message }}</div>
         @enderror
@@ -94,7 +94,8 @@
 
     <div class="form-group w-25">
         <label for="post_index">Дополнительный индекс</label>
-        <input type="text" class="form-control" name="post_index" placeholder="Дополнительный индекс" value="{{ old('post_index') }}">
+        <input type="text" class="form-control" name="post_index" placeholder="Дополнительный индекс"
+               value="{{ old('post_index') }}">
         @error('post_index')
         <div class="text-danger">{{ $message }}</div>
         @enderror
@@ -124,7 +125,8 @@
 
     <div class="form-group w-25">
         <label for="residential_status">Статус проживания</label>
-        <input type="text" class="form-control" name="residential_status" placeholder="Статус проживания" value="{{ old('residential_status') }}">
+        <input type="text" class="form-control" name="residential_status" placeholder="Статус проживания"
+               value="{{ old('residential_status') }}">
         @error('residential_status')
         <div class="text-danger">{{ $message }}</div>
         @enderror
@@ -132,7 +134,8 @@
 
     <div class="form-group w-25">
         <label for="unique_token">Unique token (для генерации ничего не пишите)</label>
-        <input type="text" class="form-control" name="unique_token" placeholder="Unique token" value="{{ old('unique_token') }}">
+        <input type="text" class="form-control" name="unique_token" placeholder="Unique token"
+               value="{{ old('unique_token') }}">
         @error('unique_token')
         <div class="text-danger">{{ $message }}</div>
         @enderror
@@ -140,12 +143,9 @@
 
     <div class="form-group w-25">
         <label for="address_years">Количество лет по адресу</label>
-        <input type="number" class="form-control" name="address_years" placeholder="Количество лет по адресу" value="{{ old('address_years') }}">
+        <input type="number" class="form-control" name="address_years" placeholder="Количество лет по адресу"
+               value="{{ old('address_years') }}">
         @error('address_years')
         <div class="text-danger">{{ $message }}</div>
         @enderror
     </div>
-    <div class="form-group">
-        <input type="submit" class="btn btn-primary" value="Добавить">
-    </div>
-</form>

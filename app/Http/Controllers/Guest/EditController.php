@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Guest;
 use App\Http\Controllers\Controller;
 use App\Models\Guest;
 
-class EditController extends Controller
+class EditController extends BaseController
 {
     public function __invoke(Guest $guest)
     {

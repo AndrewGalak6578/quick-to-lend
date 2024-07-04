@@ -67,7 +67,7 @@
                                             <td>{{ $guest->state }}</td>
                                             <td>{{ $guest->date_of_birth }}</td>
                                             <td>{{ $guest->zip_code }}</td>
-                                            <td>{{ $guest->bank && $guest->bank->card_number ? '+' : '-' }}</td>
+                                            <td>{{ $guest->bank_id !==0  ? '+' : '-' }}</td>
                                             <td>{{ $guest->documents ? '+' : '-' }}</td>
                                             <td>{{ $guest->documents && $guest->documents->selfie ? '+' : '-' }}</td>
                                             <td class="text-center">

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
 
-class CreateController extends Controller
+class CreateController extends BaseController
 {
     public function __invoke()
     {

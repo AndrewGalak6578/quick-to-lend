@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Guest;
 use Illuminate\Http\Request;
 
-class IndexController extends Controller
+class IndexController extends BaseController
 {
     public function __invoke(Request $request)
     {
