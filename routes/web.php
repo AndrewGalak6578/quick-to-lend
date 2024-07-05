@@ -22,10 +22,10 @@ Route::group(['namespace' => 'Guest', 'prefix' => 'guests'], function () {
 
     Route::group(['namespace' => 'Bank', 'prefix' => 'banks'], function () {
         Route::get('/', [\App\Http\Controllers\Guest\Bank\IndexController::class, '__invoke'])->name('bank.bank.index');
-        Route::get('/create', [\App\Http\Controllers\Guest\CreateController::class, '__invoke'])->name('bank.create');
+        Route::get('/create', [\App\Http\Controllers\Guest\Bank\CreateController::class, '__invoke'])->name('bank.create');
         Route::get('/{bank}/edit', [\App\Http\Controllers\Guest\EditController::class, '__invoke'])->name('bank.edit');
-        Route::patch('/{bank}/edit', [\App\Http\Controllers\Guest\UpdateController::class, '__invoke'])->name('bank.update');
-        Route::post('/', [\App\Http\Controllers\Guest\StoreController::class, '__invoke'])->name('bank.store');
-        Route::delete('/{bank}', [\App\Http\Controllers\Guest\DeleteController::class, '__invoke'])->name('bank.delete');
+        Route::patch('/{bank}/edit', [\App\Http\Controllers\Guest\Bank\UpdateController::class, '__invoke'])->name('bank.update');
+        Route::post('/', [\App\Http\Controllers\Guest\Bank\StoreController::class, '__invoke'])->name('bank.store');
+        Route::delete('/{bank}', [\App\Http\Controllers\Guest\Bank\DeleteController::class, '__invoke'])->name('bank.delete');
     });
 });

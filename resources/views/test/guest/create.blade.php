@@ -35,14 +35,14 @@
                                         <h3>Пользовательская информация</h3>
                                     </div>
                                     <!-- Guest form fields-->
-                                    @include('test.guest.forms.guest-create')
+{{--                                    @include('test.guest.forms.guest-create')--}}
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-2">
                                         <h3>Банковская информация</h3>
                                     </div>
                                     <!-- Bank form  fields-->
-                                    @include('test.guest.forms.bank-create')
+{{--                                    @include('test.guest.forms.bank-create')--}}
 
 
                                 </div>
@@ -51,7 +51,7 @@
                                         <h3>Документская информация</h3>
                                     </div>
                                     <!-- Bank form  fields-->
-                                    @include('test.guest.forms.document-create')
+{{--                                    @include('test.guest.forms.document-create')--}}
                                     <div class="form-group">
                                         <input type="submit" class="btn btn-primary" value="Добавить">
                                     </div>

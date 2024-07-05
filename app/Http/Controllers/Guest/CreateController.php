@@ -8,6 +8,6 @@ class CreateController extends BaseController
 {
     public function __invoke()
     {
-        return view('test.guest.create');
+        return 111;
     }
 }

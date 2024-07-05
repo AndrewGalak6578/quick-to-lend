@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Bank\Guest;
+namespace App\Http\Controllers\Guest\Bank;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Guest\Bank\StoreRequest;

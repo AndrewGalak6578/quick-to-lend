@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Guest;
+namespace App\Http\Controllers\Guest\Bank;
 
 use App\Http\Controllers\Controller;
 
