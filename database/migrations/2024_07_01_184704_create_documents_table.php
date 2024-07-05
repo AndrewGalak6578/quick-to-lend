@@ -27,7 +27,7 @@ return new class extends Migration
             $table->index('guest_id', 'documents_guest_idx');
 
             // FK
-            $table->foreign('guest_id', 'documents_guest_fk')->references('id')->on('main_table');
+            $table->foreign('guest_id', 'documents_guest_fk')->references('id')->on('guests');
 
             $table->timestamps();
             $table->softDeletes();

@@ -8,11 +8,11 @@ use App\Models\Guest;
 
 class UpdateController extends Controller
 {
-    public function __invoke(UpdateRequest $request, Guest $guest)
-    {
-        $data = $request->validated();
-        $guest->update($data);
-        $guest->fresh();
-        return redirect()->route('guest.index');
-    }
+//    public function __invoke(UpdateRequest $request, Guest $guest)
+//    {
+//        $data = $request->validated();
+//        $guest->update($data);
+//        $guest->fresh();
+//        return redirect()->route('guest.index');
+//    }
 }

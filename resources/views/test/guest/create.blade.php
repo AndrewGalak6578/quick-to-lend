@@ -30,27 +30,37 @@
                             @csrf
 
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-4">
                                     <div class="mb-2">
                                         <h3>Пользовательская информация</h3>
                                     </div>
                                     <!-- Guest form fields-->
                                     @include('test.guest.forms.guest-create')
                                 </div>
-                                <div class="col-6">
+                                <div class="col-4">
                                     <div class="mb-2">
                                         <h3>Банковская информация</h3>
                                     </div>
                                     <!-- Bank form  fields-->
                                     @include('test.guest.forms.bank-create')
 
+
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-2">
+                                        <h3>Документская информация</h3>
+                                    </div>
+                                    <!-- Bank form  fields-->
+                                    @include('test.guest.forms.document-create')
                                     <div class="form-group">
                                         <input type="submit" class="btn btn-primary" value="Добавить">
                                     </div>
                                 </div>
+
                             </div>
                         </form>
                     </div>
+
                 </div>
                 <!-- /.row -->
             </div><!-- /.container-fluid -->

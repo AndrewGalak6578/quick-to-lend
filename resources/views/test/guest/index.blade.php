@@ -67,11 +67,11 @@
                                             <td>{{ $guest->state }}</td>
                                             <td>{{ $guest->date_of_birth }}</td>
                                             <td>{{ $guest->zip_code }}</td>
-                                            <td>{{ $guest->bank_id !==0  ? '+' : '-' }}</td>
+                                            <td>{{ $guest->bank_id !==0 && $guest->bank_id !== null  ? '+' : '-' }}</td>
                                             <td>{{ $guest->documents ? '+' : '-' }}</td>
                                             <td>{{ $guest->documents && $guest->documents->selfie ? '+' : '-' }}</td>
                                             <td class="text-center">
-                                                <a href="#" class="btn btn-info btn-sm"><i class="far fa-eye"></i></a>
+                                                <a href="#" class="btn btn-info btn-sm view-guest-details" data-id="{{ $guest->id }}"><i class="far fa-eye"></i></a>
                                                 <a href="{{ route('guest.update', $guest->id) }}" class="btn btn-success btn-sm"><i class="fas fa-pencil-alt"></i></a>
                                                 <form action="{{ route('guest.delete', $guest->id) }}" method="POST" class="d-inline">
                                                     @csrf
@@ -79,10 +79,12 @@
                                                     <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                                                 </form>
                                             </td>
+
                                         </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
+
                             </div>
                             <!-- /.card-body -->
                         </div>
@@ -97,4 +99,42 @@
         </section>
         <!-- /.content -->
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="viewGuestModal" tabindex="-1" aria-labelledby="viewGuestModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewGuestModalLabel">Информация о пользователе</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Здесь будет динамически загруженное содержимое -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.view-guest-details').on('click', function() {
+                var guestId = $(this).data('id');
+                $.ajax({
+                    url: '/guests/' + guestId,
+                    type: 'GET',
+                    success: function(response) {
+                        $('#viewGuestModal .modal-body').html(response.html);
+                        $('#viewGuestModal').modal('show');
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Failed to fetch guest details. Error: ' + error);
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

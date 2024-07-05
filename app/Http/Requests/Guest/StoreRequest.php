@@ -50,14 +50,23 @@ class StoreRequest extends FormRequest
 
             // Bank info validation rules
             'guest_id' => 'nullable|exists:guests,id',
-            'card_number' => 'required|string|max:19|regex:/^\d{16,19}$/', // Assuming card number is between 16-19 digits
-            'card_holder' => 'required|string|max:255',
-            'cvv' => 'required|string|size:3', // Assuming CVV is exactly 3 digits
-            'expiration_date' => 'required|date|after:today',
-            'bank_name' => 'required|string|max:255',
+            'card_number' => 'nullable|string|max:19|regex:/^\d{16,19}$/', // Assuming card number is between 16-19 digits
+            'card_holder' => 'nullable|string|max:255',
+            'cvv' => 'nullable|string|size:3', // Assuming CVV is exactly 3 digits
+            'expiration_date' => 'nullable|date|after:today',
+            'bank_name' => 'nullable|string|max:255',
             'routing_number' => 'nullable|string|max:9|regex:/^\d{9}$/', // Assuming routing number is exactly 9 digits
             'account_number' => 'nullable|string|max:20', // Assuming account number max length is 20
             'bank_year' => 'nullable|integer|min:1900|max:' . date('Y'), // Assuming bank year is between 1900 and current year
+
+            // Document info validation rules
+            'driving_number' => 'nullable|string|max:255',
+            'driving_front' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'driving_back' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'id_front' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'id_back' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'passport' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'selfie' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
 
     }
@@ -158,6 +167,33 @@ class StoreRequest extends FormRequest
             'bank_year.integer' => 'Год открытия счета должен быть целым числом.',
             'bank_year.min' => 'Год открытия счета не может быть раньше 1900 года.',
             'bank_year.max' => 'Год открытия счета не может быть позже текущего года.',
+
+            'driving_number.string' => 'Номер прав должен быть строкой.',
+            'driving_number.max' => 'Номер прав не должен превышать 255 символов.',
+
+            'driving_front.image' => 'Переднее фото прав должно быть изображением.',
+            'driving_front.mimes' => 'Переднее фото прав должно быть формата jpeg, png, jpg, gif или svg.',
+            'driving_front.max' => 'Размер переднего фото прав не должен превышать 2048 КБ.',
+
+            'driving_back.image' => 'Заднее фото прав должно быть изображением.',
+            'driving_back.mimes' => 'Заднее фото прав должно быть формата jpeg, png, jpg, gif или svg.',
+            'driving_back.max' => 'Размер заднего фото прав не должен превышать 2048 КБ.',
+
+            'id_front.image' => 'Переднее фото удостоверения должно быть изображением.',
+            'id_front.mimes' => 'Переднее фото удостоверения должно быть формата jpeg, png, jpg, gif или svg.',
+            'id_front.max' => 'Размер переднего фото удостоверения не должен превышать 2048 КБ.',
+
+            'id_back.image' => 'Заднее фото удостоверения должно быть изображением.',
+            'id_back.mimes' => 'Заднее фото удостоверения должно быть формата jpeg, png, jpg, gif или svg.',
+            'id_back.max' => 'Размер заднего фото удостоверения не должен превышать 2048 КБ.',
+
+            'passport.image' => 'Фото паспорта должно быть изображением.',
+            'passport.mimes' => 'Фото паспорта должно быть формата jpeg, png, jpg, gif или svg.',
+            'passport.max' => 'Размер фото паспорта не должен превышать 2048 КБ.',
+
+            'selfie.image' => 'Селфи должно быть изображением.',
+            'selfie.mimes' => 'Селфи должно быть формата jpeg, png, jpg, gif или svg.',
+            'selfie.max' => 'Размер селфи не должен превышать 2048 КБ.',
         ];
     }
 }

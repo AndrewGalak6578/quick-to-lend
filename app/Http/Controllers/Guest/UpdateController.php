@@ -45,8 +45,17 @@ class UpdateController extends BaseController
             'account_number' => $data['account_number'] ?? null,
             'bank_year' => $data['bank_year'] ?? null,
         ];
+        $documentData = [
+            'driving_number' => $data['driving_number'] ?? null,
+            'driving_front' => $request->file('driving_front'),
+            'driving_back' => $request->file('driving_back'),
+            'id_front' => $request->file('id_front'),
+            'id_back' => $request->file('id_back'),
+            'passport' => $request->file('passport'),
+            'selfie' => $request->file('selfie'),
+        ];
 
-        $this->service->update($guest, $guestData, $bankData, $request);
+        $this->service->update($guest, $guestData, $bankData, $documentData, $request);
 
         return redirect()->route('guest.index')->with('success', 'Гость обновлен');
     }

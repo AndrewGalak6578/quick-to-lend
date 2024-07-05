@@ -26,9 +26,38 @@
             <div class="container-fluid">
                 <!-- Small boxes (Stat box) -->
                 <div class="row">
-                    <div class="col-6">
-                        @include('test.guest.forms.guest-edit')
-                    </div>
+                    <form action="{{ route('guest.update', $guest->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PATCH')
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="mb-2">
+                                    <h3>Пользовательская информация</h3>
+                                </div>
+                                <!-- Guest form fields-->
+                                @include('test.guest.forms.guest-edit')
+                            </div>
+                            <div class="col-4">
+                                <div class="mb-2">
+                                    <h3>Банковская информация</h3>
+                                </div>
+                                <!-- Bank form  fields-->
+                                @include('test.guest.forms.bank-edit')
+
+                            </div>
+                            <div class="col-4">
+                                <div class="mb-2">
+                                    <h3>Документская информация</h3>
+                                </div>
+                                <!-- Bank form  fields-->
+                                @include('test.guest.forms.document-edit')
+
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-primary" value="Добавить">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <!-- /.row -->
             </div><!-- /.container-fluid -->

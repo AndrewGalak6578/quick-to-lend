@@ -45,7 +45,16 @@ class StoreController extends BaseController
             'bank_year' => $data['bank_year'] ?? null,
         ];
 
-        $this->service->store($guestData, $bankData, $request);
+        $documentData = [
+            'driving_number' => $data['driving_number'] ?? null,
+            'driving_front' => $request->file('driving_front'),
+            'driving_back' => $request->file('driving_back'),
+            'id_front' => $request->file('id_front'),
+            'id_back' => $request->file('id_back'),
+            'passport' => $request->file('passport'),
+            'selfie' => $request->file('selfie'),
+        ];
+        $this->service->store($guestData, $bankData, $documentData, $request);
 
 
 
