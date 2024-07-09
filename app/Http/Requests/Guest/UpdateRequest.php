@@ -62,6 +62,12 @@ class UpdateRequest extends FormRequest
             'id_back' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'passport' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'selfie' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+            // Jobs info validation rules
+            'job_title' => 'nullable|string|max:255',
+            'employer_name' => 'nullable|string|max:255',
+            'employment_length' => 'nullable|integer|min:0|max:100',
+            'salary' => 'nullable|numeric|min:0|max:999999.99',
         ];
     }
 
@@ -182,6 +188,20 @@ class UpdateRequest extends FormRequest
             'selfie.image' => 'Селфи должно быть изображением.',
             'selfie.mimes' => 'Селфи должно быть формата jpeg, png, jpg, gif или svg.',
             'selfie.max' => 'Размер селфи не должен превышать 2048 КБ.',
+
+            'job_title.string' => 'Название работы должно быть строкой.',
+            'job_title.max' => 'Название работы не должно превышать 255 символов.',
+
+            'employer_name.string' => 'Название работодателя должно быть строкой.',
+            'employer_name.max' => 'Название работодателя не должно превышать 255 символов.',
+
+            'employment_length.integer' => 'Длина занятости должна быть целым числом.',
+            'employment_length.min' => 'Длина занятости не может быть меньше 0.',
+            'employment_length.max' => 'Длина занятости не должна превышать 100 лет.',
+
+            'salary.numeric' => 'Зарплата должна быть числом.',
+            'salary.min' => 'Зарплата не может быть отрицательной.',
+            'salary.max' => 'Зарплата не может превышать 999,999.99.',
         ];
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\Guest\UpdateRequest;
 use App\Models\Document;
 use App\Models\Guest;
 use App\Models\BankData;
+use App\Models\JobInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -17,7 +18,7 @@ class GuestService
     /**
      * @throws \Throwable
      */
-    public function store($guestData, $bankData, $documentData, StoreRequest $request)
+    public function store($guestData, $bankData, $documentData, $jobData, StoreRequest $request)
     {
 
         DB::beginTransaction();
@@ -41,7 +42,7 @@ class GuestService
             $guest = Guest::firstOrCreate(["unique_token" => $uniqueToken], $guestData);
 
             // Проверка наличия данных для BankData и DocumentData перед созданием записи
-            $hasBankData = $this->hasBankData($bankData);
+            $hasBankData = $this->hasData($bankData);
 
 
             if ($hasBankData) {
@@ -51,7 +52,7 @@ class GuestService
                 $guest->update(['bank_id' => $bank->id]);
             }
 
-            if ($this->hasDocumentData($documentData)) {
+            if ($this->hasData($documentData)) {
                 foreach ($documentData as $key => $file) {
                     if ($file instanceof \Illuminate\Http\UploadedFile && $file->isValid()) {
                         $path = Storage::disk('public')->put('/documents', $file);
@@ -63,6 +64,12 @@ class GuestService
                 $guest->update(['documents_id' => $documents->id]);
             }
 
+            if ($this->hasData($jobData)) {
+                $jobData['guest_id'] = $guest->id;
+                $jobInfo = JobInfo::firstOrCreate(["guest_id" => $guest->id], $jobData);
+
+                $guest->update(['job_info_id' => $jobInfo->id]);
+            }
 
             DB::commit();
 
@@ -78,7 +85,7 @@ class GuestService
     /**
      * @throws \Throwable
      */
-    public function update(Guest $guest, $guestData, $bankData, $documentData, UpdateRequest $request)
+    public function update(Guest $guest, $guestData, $bankData, $documentData, $jobData, UpdateRequest $request)
     {
         // Разделяем данные для гостя и для банка
 
@@ -90,7 +97,7 @@ class GuestService
             $guest->update($guestData);
 
             // Проверка наличия данных для BankData перед созданием или обновлением записи
-            $hasBankData = $this->hasBankData($bankData);
+            $hasBankData = $this->hasData($bankData);
 
             if ($hasBankData) {
                 $bankData['guest_id'] = $guest->id;
@@ -101,7 +108,7 @@ class GuestService
                     BankData::create($bankData);
                 }
             }
-            if ($this->hasDocumentData($documentData)) {
+            if ($this->hasData($documentData)) {
                 $documentData['guest_id'] = $guest->id;
                 $documentDataModel = Document::where('guest_id', $guest->id)->first();
 
@@ -126,6 +133,18 @@ class GuestService
                     Document::create($documentData);
                 }
             }
+
+            if ($this->hasData($jobData)) {
+                $jobData['guest_id'] = $guest->id;
+                $jobInfo = $guest->jobInfo;
+
+                if ($jobInfo) {
+                    $jobInfo->update($jobData);
+                } else {
+                    JobInfo::create($jobData);
+                }
+
+            }
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
@@ -133,18 +152,9 @@ class GuestService
             throw $e;
         }
     }
-    private function hasBankData($bankData)
+    private function hasData($bankData)
     {
         foreach ($bankData as $key => $value) {
-            if (!is_null($value)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    private function hasDocumentData($documentData)
-    {
-        foreach ($documentData as $key => $value) {
             if (!is_null($value)) {
                 return true;
             }

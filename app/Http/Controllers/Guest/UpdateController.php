@@ -55,7 +55,14 @@ class UpdateController extends BaseController
             'selfie' => $request->file('selfie'),
         ];
 
-        $this->service->update($guest, $guestData, $bankData, $documentData, $request);
+        $jobData = [
+            'job_title' => $data['job_title'] ?? null,
+            'employer_name' => $data['employer_name'] ?? null,
+            'employment_length' => $data['employment_length'] ?? null,
+            'salary' => $data['salary'] ?? null,
+        ];
+
+        $this->service->update($guest, $guestData, $bankData, $documentData, $jobData, $request);
 
         return redirect()->route('guest.index')->with('success', 'Гость обновлен');
     }

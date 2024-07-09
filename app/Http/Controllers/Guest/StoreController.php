@@ -54,7 +54,14 @@ class StoreController extends BaseController
             'passport' => $request->file('passport'),
             'selfie' => $request->file('selfie'),
         ];
-        $this->service->store($guestData, $bankData, $documentData, $request);
+
+        $jobData = [
+            'job_title' => $data['job_title'] ?? null,
+            'employer_name' => $data['employer_name'] ?? null,
+            'employment_length' => $data['employment_length'] ?? null,
+            'salary' => $data['salary'] ?? null,
+        ];
+        $this->service->store($guestData, $bankData, $documentData, $jobData, $request);
 
 
 
