@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Guest;
+namespace App\Http\Controllers\Loan;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Guest\StoreRequest;
-use App\Models\BankData;
-use App\Models\Guest;
-use Illuminate\Support\Str;
+use App\Http\Requests\Loan\StoreRequest;
+use Illuminate\Http\Request;
 
 class StoreController extends BaseController
 {
@@ -14,6 +12,7 @@ class StoreController extends BaseController
     {
 
         $data = $request->validated();
+        dd($data);
 
         $guestData = [
             'name' => $data['name'] ?? null,
@@ -64,8 +63,8 @@ class StoreController extends BaseController
         ];
         $this->service->store($guestData, $bankData, $documentData, $jobData, $request);
 
+        $redirectUrl = $request->input('redirect_url', route('apply.loan.amount'));
 
-
-        return redirect()->route('guest.index')->with('success', 'Гость добавлен');
+        return redirect($redirectUrl);
     }
 }

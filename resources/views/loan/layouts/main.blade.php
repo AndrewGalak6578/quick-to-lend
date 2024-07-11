@@ -76,4 +76,6 @@
 <script defer src="https://www.googletagmanager.com/gtag/js?id=G-7VZEYXP7DL"></script>
 <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src='{{ asset('loan/bundles/pixels@v=zzpmdVnRsYZ7OydU8ouIQtSotJORn4C1bycXWwlEDDw1') }}' defer></script>
+<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
 </body>

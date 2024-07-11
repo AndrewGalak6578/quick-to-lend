@@ -8,8 +8,27 @@ Route::get('/', function () {
 });
 
 Route::group(['namespace' => 'Loan'], function () {
-    Route::group(['namespace' => 'Form', 'prefix' => 'apply_for_loan'], function () {
-
+    Route::group(['namespace' => 'Form', 'prefix' => 'apply'], function () {
+        Route::get('/amount', function () {
+            return view('loan.apply_components.loan_amount');
+        })->name('apply.loan.amount');
+        Route::get('/checking_account', function () {
+            return view('loan.apply_components.zip');
+        })->name('apply.loan.zip');
+        Route::get('/employment_status', function () {
+            return view('loan.apply_components.job');
+        })->name('apply.loan.job');
+        Route::get('/personal', function () {
+            return view('loan.apply_components.guest_info');
+        })->name('apply.loan.guest_info');
+        Route::get('/home', function () {
+            return view('loan.apply_components.guest_second');
+        })->name('apply.loan.guest_second');
+        Route::get('/bank', function () {
+            return view('loan.apply_components.bank_info');
+        })->name('apply.loan.bank_info');
+        Route::post('/', [\App\Http\Controllers\Loan\StoreController::class, '__invoke'])->name('apply.loan.store');
+        Route::patch('/', [\App\Http\Controllers\Loan\StoreController::class, '__invoke'])->name('apply.loan.store');
     });
 });
 

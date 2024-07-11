@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Guest;
+namespace App\Http\Controllers\Loan;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Guest\StoreRequest;
-use App\Models\BankData;
+use App\Http\Controllers\Loan\BaseController;
+use App\Http\Requests\Loan\UpdateRequest;
 use App\Models\Guest;
-use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
-class StoreController extends BaseController
+class UpdateController extends BaseController
 {
-    public function __invoke(StoreRequest $request)
+    public function __invoke(UpdateRequest $request, Guest $guest)
     {
-
         $data = $request->validated();
+
 
         $guestData = [
             'name' => $data['name'] ?? null,
@@ -45,7 +45,6 @@ class StoreController extends BaseController
             'account_number' => $data['account_number'] ?? null,
             'bank_year' => $data['bank_year'] ?? null,
         ];
-
         $documentData = [
             'driving_number' => $data['driving_number'] ?? null,
             'driving_front' => $request->file('driving_front'),
@@ -62,10 +61,7 @@ class StoreController extends BaseController
             'employment_length' => $data['employment_length'] ?? null,
             'salary' => $data['salary'] ?? null,
         ];
-        $this->service->store($guestData, $bankData, $documentData, $jobData, $request);
 
-
-
-        return redirect()->route('guest.index')->with('success', 'Гость добавлен');
+        $this->service->update($guest, $guestData, $bankData, $documentData, $jobData, $request);
     }
 }

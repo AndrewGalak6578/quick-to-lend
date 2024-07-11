@@ -1,6 +1,6 @@
 @extends('loan.apply_for_loan')
 @section('content')
-    <div class="section  section-banking" id="form_banking">
+    <div class="section section-form section-banking active" id="form_banking">
         <div class="container">
             <div class="row">
                 <div class="">

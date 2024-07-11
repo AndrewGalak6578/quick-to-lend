@@ -2,7 +2,7 @@
 
 {{--1--}}
 @section('content')
-<div class="section ">
+<div class="section">
     <div class="container" style="max-width: 1210px">
         <div class="row">
             <div class=" ">
@@ -138,7 +138,7 @@
                     </div>
                 </div>
                 <div class="section-footer">
-                    <button type="button" onclick="nextPrev(1)" class="btn btn-primary">Next Step</button>
+                    <a href="{{ route('apply.loan.checking_account') }}"><button type="button"  class="btn btn-primary">Next Step</button></a>
                 </div>
             </div>
         </div>
