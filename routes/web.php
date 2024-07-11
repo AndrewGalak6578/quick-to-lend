@@ -9,7 +9,7 @@ Route::get('/', function () {
 
 Route::group(['namespace' => 'Loan'], function () {
     Route::group(['namespace' => 'Form', 'prefix' => 'apply_for_loan'], function () {
-        Route::get()
+
     });
 });
 
