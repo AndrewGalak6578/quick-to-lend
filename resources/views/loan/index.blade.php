@@ -15,7 +15,7 @@
                             </div>
                         </div>
                         <h5>Let’s Get You Connected To A Direct Lender Who Can Deliver Funds Today!</h5><a
-                            href="apply_for_a_loan_now.html">
+                            href="{{ route('loan.apply_for_loan') }}">
                             <div class=gradient-btn>Request funds</div>
                         </a></div>
                 </div>
@@ -38,15 +38,15 @@
         <div class=multigradient-section>
             <div class=container>
                 <div class=row>
-                    <div class=col4><img class=lazy data-src=/Content/images/quick2lend-06.svg height=70 width=61
+                    <div class=col4><img class=lazy data-src={{asset('loan/Content/images/quick2lend-06.svg')}} height=70 width=61
                                          alt="Loans For Everyone"><h4>Loans For Everyone</h4>
                         <p>You’re welcome no matter what your credit score is. You can use the funds for any purpose.
                     </div>
-                    <div class=col4><img class=lazy data-src=/Content/images/quick2lend-07.svg height=70 width=56
+                    <div class=col4><img class=lazy data-src={{asset('loan/Content/images/quick2lend-07.svg')}} height=70 width=56
                                          alt="You’re In A Rush!"><h4>You’re In A Rush!</h4>
                         <p>We value your time greatly. We will take your application and process it quickly. You could
                             have your funds in as little as 15 mins. (**)</div>
-                    <div class=col4><img class=lazy data-src=/Content/images/quick2lend-08.svg height=70 width=70
+                    <div class=col4><img class=lazy data-src={{asset('loan/Content/images/quick2lend-08.svg')}} height=70 width=70
                                          alt="Direct Deposit"><h4>Direct Deposit</h4>
                         <p>No waiting around or lining up. You can have your funds deposited direct to your bank
                             account. (**)</div>
@@ -57,7 +57,7 @@
     <div class=multigradient-section-border></div>
     <div class=container>
         <div class="row large-bullets-section">
-            <div class=col7><img class=lazy data-src=/Content/images/hero3.png alt=hero></div>
+            <div class=col7><img class=lazy data-src={{asset('loan/Content/images/hero3.png')}} alt=hero></div>
             <div class=col5>
                 <div class=large-bullet>
                     <ul>
@@ -81,7 +81,7 @@
                     <p>Once approved, you can finish up your acceptance with the lender and have your funds deposited
                         directly to your bank account.</div>
             </div>
-            <div class=col5><img class=lazy data-src=/Content/images/hero4.png alt="hero 2"></div>
+            <div class=col5><img class=lazy data-src={{asset('loan/Content/images/hero4.png')}} alt="hero 2"></div>
         </div>
     </div>
     <div class=purplegradient-section>
@@ -89,7 +89,7 @@
             <div class=row>
                 <div class=col12><h4>To Give You Total Peace Of Mind</h4><h5>If you are applying for a loan online, it
                         is important that you choose a reputable company. Before you apply, here's a little bit of
-                        information to put your mind at ease.</h5><a href="apply_for_a_loan_now.html">
+                        information to put your mind at ease.</h5><a href="apply_for_loan">
                         <div class=gradient-btn>Request funds</div>
                     </a></div>
             </div>
@@ -97,13 +97,13 @@
     </div>
     <div class=container>
         <div class="row security-section">
-            <div class=col4><img class=lazy data-src=/Content/images/ola.png height=50 width=102
+            <div class=col4><img class=lazy data-src={{asset('loan/Content/images/ola.png')}} height=50 width=102
                                  alt="We Are OLA By Accredited"><h4>We Are OLA Accredited</h4>
                 <p>Quick2lend has been a member of the Online lenders Alliance since 2005</div>
-            <div class=col4><img class=lazy data-src=/Content/images/quick2lend-09.svg height=50 width=51
+            <div class=col4><img class=lazy data-src={{asset('loan/Content/images/quick2lend-09.svg')}} height=50 width=51
                                  alt="Your Data Is Secure"><h4>Your Data Is Secure</h4>
                 <p>We are always clear and transparent with regards to how your data is processed</div>
-            <div class=col4><img class=lazy data-src=/Content/images/quick2lend-11.svg height=50 width=46
+            <div class=col4><img class=lazy data-src={{asset('loan/Content/images/quick2lend-11.svg')}} height=50 width=46
                                  alt="We don't charge fees"><h4>We don't charge fees</h4>
                 <p>Quick2lend is FREE loan matching service. There is no charge to obtain a quote</div>
         </div>

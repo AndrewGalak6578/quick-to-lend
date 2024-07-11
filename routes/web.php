@@ -4,7 +4,13 @@ use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('loan.index');
+    return view('loan.apply_components.job');
+});
+
+Route::group(['namespace' => 'Loan'], function () {
+    Route::group(['namespace' => 'Form', 'prefix' => 'apply_for_loan'], function () {
+        Route::get()
+    });
 });
 
 Route::group(['namespace' => 'Auth'], function () {
@@ -19,7 +25,7 @@ Route::get('/dump', [\App\Http\Controllers\DumpController::class, '__invoke'])->
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(['namespace' => 'Guest', 'prefix' => 'guests', 'middleware' => 'auth'], function () {
+Route::group(['namespace' => 'Guest', 'prefix' => 'guests'], function () {
     Route::get('/check', [\App\Http\Controllers\Guest\CheckController::class, '__invoke'])->name('guest.check');
     Route::get('/', [\App\Http\Controllers\Guest\IndexController::class, '__invoke'])->name('guest.index');
     Route::get('/create', [\App\Http\Controllers\Guest\CreateController::class, '__invoke'])->name('guest.create');
