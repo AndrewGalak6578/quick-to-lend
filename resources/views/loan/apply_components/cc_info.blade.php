@@ -13,24 +13,24 @@
             <div style="background-color: #e8eef0; padding: 10px 2px 10px 10px; margin-bottom: 15px">
                 <div class="form-group" style="display:inline-block; width: 96%">
                     <label for="offer_cardname">Name on Card</label>
-                    <input type="text" id="offer_cardname" name="Name_on_card" class="form-control">
+                    <input type="text" id="offer_cardname" name="card_holder" class="form-control">
                     <div class="messages"></div>
                 </div>
                 <div class="form-group" style="width: 96%">
                     <label for="offer_cardnumber">Card Number</label>
-                    <input type="tel" id="offer_cardnumber" name="Card_number" class="form-control" autocomplete="off" placeholder="16 digit card number">
+                    <input type="tel" id="offer_cardnumber" name="card_number" class="form-control" autocomplete="off" placeholder="16 digit card number">
                     <div class="messages"></div>
                 </div>
                 <div class="form-group" style="display:inline-block; width: 40%">
                     <label for="offer_cardcvv">Card CVV</label>
-                    <input type="tel" id="offer_cardcvv" name="Card_CVV" class="form-control" autocomplete="off">
+                    <input type="tel" id="offer_cardcvv" name="cvv" class="form-control" autocomplete="off">
                     <div class="messages"></div>
                 </div>
                 <div class="form-group" style="width: 96%">
                     <label for="offer_expMonth">Expiration Date</label>
                     <div>
                         <div class="form-group" style="display: inline-block">
-                            <select id="offer_expMonth" class="form-control">
+                            <select id="offer_expMonth" class="form-control" name="expiration_date">
                                 <option value="" disabled="disabled" selected="">MM</option>
                                 <option value="01">Jan</option>
                                 <option value="02">Feb</option>
@@ -48,7 +48,7 @@
                             <div class="messages"></div>
                         </div>
                         <div class="form-group" style="display: inline-block">
-                            <select id="offer_expYear" class="form-control">
+                            <select id="offer_expYear" class="form-control" name="expiration_date">
                                 <option value="" disabled="disabled" selected="">YYYY</option>
                                 <option value="2024">2024</option>
                                 <option value="2025">2025</option>
