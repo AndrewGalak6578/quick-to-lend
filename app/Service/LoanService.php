@@ -23,7 +23,6 @@ class LoanService
     {
 
         DB::beginTransaction();
-        dd(1);
 
         try {
             if (!isset($guestData['unique_token']) || is_null($guestData['unique_token'])) {
@@ -45,7 +44,12 @@ class LoanService
             $guest = Guest::where('unique_token', $uniqueToken)->first();
 
             if ($guest) {
-                $guest->update($guestData);
+                foreach ($guestData as $key => $value) {
+                    if ($value !== null) {
+
+                        $guest->update([$key => $value]);
+                    }
+                }
             } else {
                 $guest = Guest::create($guestData);
             }
@@ -56,7 +60,16 @@ class LoanService
 
             if ($hasBankData) {
                 $bankData['guest_id'] = $guest->id;
-                $bank = BankData::firstOrCreate(["guest_id" => $guest->id], $bankData);
+                if ($guest->bank_id) {
+                    foreach ($bankData as $key => $value) {
+                        if ($value !== null) {
+                            $bank = BankData::update([$key => $value]);
+                        }
+                    }
+                } else {
+                    $bank = BankData::create($bankData);
+                }
+
 
                 $guest->update(['bank_id' => $bank->id]);
             }
@@ -75,7 +88,15 @@ class LoanService
 
             if ($this->hasData($jobData)) {
                 $jobData['guest_id'] = $guest->id;
-                $jobInfo = JobInfo::firstOrCreate(["guest_id" => $guest->id], $jobData);
+                if ($guest->job_info_id) {
+                    foreach ($jobData as $key => $value) {
+                        if ($value !== null) {
+                            $jobInfo = JobInfo::update([$key => $value]);
+                        }
+                    }
+                } else {
+                    $jobInfo = JobInfo::create($jobData);
+                }
 
                 $guest->update(['job_info_id' => $jobInfo->id]);
             }
@@ -100,7 +121,7 @@ class LoanService
 
         DB::beginTransaction();
         try {
-            if(!isset($guestData['unique_token'])) {
+            if (!isset($guestData['unique_token'])) {
                 $guestData['unique_token'] = $guest->unique_token;
             }
             $guest->update($guestData);
@@ -161,6 +182,7 @@ class LoanService
             throw $e;
         }
     }
+
     private function hasData($bankData)
     {
         foreach ($bankData as $key => $value) {

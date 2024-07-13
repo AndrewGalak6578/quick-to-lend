@@ -39,6 +39,7 @@
     </nav>
 </header>
 @yield('main')
+
 <div class=footer>
     <div class=container><a href="start_your_loan"> <img data-src="{{ asset('/loan/Content/images/logo-white.png') }}"
                                                                       class="logo lazy" height=51 width=118 alt=logo>
@@ -78,4 +79,23 @@
 <script src='{{ asset('loan/bundles/pixels@v=zzpmdVnRsYZ7OydU8ouIQtSotJORn4C1bycXWwlEDDw1') }}' defer></script>
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+<script>
+    function showJobFields(event) {
+        document.getElementById('job_fields').classList.remove('hide_element');
+        document.getElementById('income-message').classList.add('hide_element');
+    }
+
+    function hideJobFields(event) {
+        document.getElementById('job_fields').classList.add('hide_element');
+        document.getElementById('income-message').classList.remove('hide_element');
+    }
+
+    function showEmployerMonths(event) {
+        document.getElementById('employer-months').classList.remove('hide_element');
+    }
+
+    function hideEmployerMonths(event) {
+        document.getElementById('employer-months').classList.add('hide_element');
+    }
+</script>
 </body>

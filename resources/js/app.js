@@ -6,3 +6,4 @@ document.addEventListener('DOMContentLoaded', function() {
         dateFormat: "Y-m-d",
     });
 });
+window.$ = window.jQuery = require('jquery');

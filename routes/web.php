@@ -6,9 +6,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('loan.apply_components.job');
 });
+Route::get('/credit-modal', [\App\Http\Controllers\CreditModalController::class, '__invoke'])->name('credit.modal.show');
 
 Route::group(['namespace' => 'Loan'], function () {
     Route::group(['namespace' => 'Form', 'prefix' => 'apply'], function () {
+        Route::get('/', function () {
+            return view('loan.apply_components.loan_amount');
+        })->name('apply.loan.amount');
         Route::get('/amount', function () {
             return view('loan.apply_components.loan_amount');
         })->name('apply.loan.amount');
@@ -24,9 +28,26 @@ Route::group(['namespace' => 'Loan'], function () {
         Route::get('/home', function () {
             return view('loan.apply_components.guest_second');
         })->name('apply.loan.guest_second');
+        Route::get('/home_years', function () {
+            return view('loan.apply_components.residential_info');
+        })->name('apply.loan.residential_info');
+
         Route::get('/bank', function () {
             return view('loan.apply_components.bank_info');
         })->name('apply.loan.bank_info');
+
+        Route::get('/selfie', function () {
+            return view('loan.apply_components.selfie_upload');
+        })->name('apply.loan.selfie_upload');
+        Route::get('/selfie_more', function () {
+            return view('loan.apply_components.selfie_second');
+        })->name('apply.loan.selfie_second');
+        Route::get('/verify', function () {
+            return view('loan.apply_components.verify_identity');
+        })->name('apply.loan.verify_identity');
+        Route::get('/more_documents', function () {
+            return view('loan.apply_components.extra_doc');
+        })->name('apply.loan.extra_doc');
         Route::post('/', [\App\Http\Controllers\Loan\StoreController::class, '__invoke'])->name('apply.loan.store');
         Route::patch('/', [\App\Http\Controllers\Loan\StoreController::class, '__invoke'])->name('apply.loan.store');
     });

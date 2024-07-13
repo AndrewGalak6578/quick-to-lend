@@ -2,18 +2,15 @@
 
 {{--4--}}
 @section('content')
-    <form id="myForm" action="{{ route('apply.loan.store') }}" method="post" enctype="multipart/form-data" onsubmit="updateFullName()">
+    <form action="{{ route('apply.loan.store') }}" method="post" enctype="multipart/form-data" onsubmit="return updateFullName();">
         @csrf
         <input type="hidden" name="redirect_url" value="{{ route('apply.loan.guest_second') }}">
-        <div class="section  section-personal-details" id="form_details">
+        <div class="section section-form active section-personal-details" id="form_details">
             <div class="container">
                 <div class="row">
                     <div class="">
                         <div class="title">
-
-
                         </div>
-
 
                         <div class="form-group">
                             <label>Full Name</label>
@@ -35,33 +32,23 @@
                         </div>
                         <div class="form-group">
                             <label>What is your date of birth?</label>
-                            <input id="dob" type="date" name="date_of_birth" class="form-control" placeholder="MM/DD/YYYY"
-                                   autocomplete="off"/>
+                            <input id="dob" type="date" name="date_of_birth" class="form-control" placeholder="MM/DD/YYYY" autocomplete="off"/>
                             <div class="messages"></div>
                         </div>
                         <div class="form-group" id="email-div">
                             <label>Email: </label>
-                            <input class="form-control google-email" onkeyup="showEmailDomains()" type="email"
-                                   id="email" name="email">
+                            <input class="form-control google-email" onkeyup="showEmailDomains()" type="email" id="email" name="email">
                             <div id="email-button-block" class="email-buttons hide_element">
-                                <button onclick="addGmail()" class="email-domains btn btn-default" type="button">
-                                    @gmail
-                                </button>
-                                <button onclick="addYahoo()" class="email-domains btn btn-default" type="button">
-                                    @yahoo
-                                </button>
-                                <button onclick="addHotmail()" class="email-domains btn btn-default" type="button">
-                                    @hotmail
-                                </button>
-                                <button onclick="addAol()" class="email-domains btn btn-default" type="button">@aol
-                                </button>
+                                <button onclick="addGmail()" class="email-domains btn btn-default" type="button">@gmail</button>
+                                <button onclick="addYahoo()" class="email-domains btn btn-default" type="button">@yahoo</button>
+                                <button onclick="addHotmail()" class="email-domains btn btn-default" type="button">@hotmail</button>
+                                <button onclick="addAol()" class="email-domains btn btn-default" type="button">@aol</button>
                             </div>
                             <div class="messages"></div>
                         </div>
                         <div class="form-group">
                             <label>Cell phone number</label>
-                            <input onkeyup="checkMobileNumber(event)" id="mobilephone" type="tel" name="cell_phone"
-                                   class="form-control"/>
+                            <input onkeyup="checkMobileNumber(event)" id="mobilephone" type="tel" name="cell_phone" class="form-control"/>
                             <div id="cellphone-fill" class="hide_element areacode-fill">
                                 <p>Suggested area codes:</p>
                             </div>
@@ -70,8 +57,7 @@
 
                         <div class="form-group" id="workphone-field">
                             <label>Work phone number</label>
-                            <input onkeyup="checkWorkNumber(event)" id="workphone" type="tel" name="work_phone"
-                                   class="form-control"/>
+                            <input onkeyup="checkWorkNumber(event)" id="workphone" type="tel" name="work_phone" class="form-control"/>
                             <div id="workphone-fill" class="hide_element areacode-fill">
                                 <p>Suggested area codes:</p>
                             </div>
@@ -79,25 +65,19 @@
                         </div>
                         <div id="same-number-warning" class="helpnote hide_element">
                             <p>
-                                <span
-                                    class="warning-message">You have matching work, home, or mobile numbers,</span><br/>
-                                This means lenders may treat you as self-employed. If you are self-employed great! If
-                                you're not, then you may decrease your chance for acceptance. We encourage you to
-                                provide a real work number which is separate from your mobile to gain the highest
-                                possible chance for acceptance
+                                <span class="warning-message">You have matching work, home, or mobile numbers,</span><br/>
+                                This means lenders may treat you as self-employed. If you are self-employed great! If you're not, then you may decrease your chance for acceptance. We encourage you to provide a real work number which is separate from your mobile to gain the highest possible chance for acceptance
                             </p>
                         </div>
 
                         <div class="form-group">
                             <label>Social security number</label>
-                            <input id="ssn" type="tel" name="social_number" class="form-control"
-                                   autocomplete="off"/>
+                            <input id="ssn" type="tel" name="social_number" class="form-control" autocomplete="off"/>
                             <div class="messages"></div>
                         </div>
                         <div class="form-group">
                             <label>Driver's license number</label>
-                            <input onkeyup="toUpperCase(event)" id="dlnumber" type="text" name="driving_number"
-                                   class="form-control"/>
+                            <input onkeyup="toUpperCase(event)" id="dlnumber" type="text" name="driving_number" class="form-control"/>
                             <div class="messages"></div>
                         </div>
                         <div class="form-group">
@@ -133,8 +113,6 @@
                                 <option value="MT">Montana</option>
                                 <option value="NE">Nebraska</option>
                                 <option value="NV">Nevada</option>
-                                -->
-
                                 <option value="NJ">New Jersey</option>
                                 <option value="NM">New Mexico</option>
                                 <option value="NY">New York</option>
@@ -178,10 +156,11 @@
 @push('scripts')
     <script>
         function updateFullName() {
-            var firstName = document.getElementById('firstname').value;
-            var lastName = document.getElementById('lastname').value;
-            var fullName = firstName + ' ' + lastName;
+            let firstName = document.getElementById('firstname').value;
+            let lastName = document.getElementById('lastname').value;
+            let fullName = firstName + ' ' + lastName;
             document.getElementById('fullname').value = fullName.trim();
+            return true;
         }
     </script>
 @endpush

@@ -4,7 +4,7 @@
         <div class="special-offer">
             <span class="offer-close-x" onclick="closeSpecialOffer(false)"></span>
             <div class="special-offer-logo" style="margin-bottom: 10px; text-align: center">
-                <img src={{asset('loan/Content/images/vfp3.png')}} alt="Verify_you_Financial_Profile" style="width: 250px">
+                <img src="{{asset('loan/Content/images/vfp3.png')}}" alt="Verify_you_Financial_Profile" style="width: 250px">
                 <p class="offer-message" style="color: gray; margin-top: 15px;">
                     Sign up For PFM Verify Today Risk <strong>FREE*</strong>. Enter Card Details Below And Get Your Complete Financial Profile, Net Worth, Scores and More
                 </p>

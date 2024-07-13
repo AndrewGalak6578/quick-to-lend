@@ -12,7 +12,6 @@ class StoreController extends BaseController
     {
 
         $data = $request->validated();
-        dd($data);
 
         $guestData = [
             'name' => $data['name'] ?? null,
@@ -47,12 +46,12 @@ class StoreController extends BaseController
 
         $documentData = [
             'driving_number' => $data['driving_number'] ?? null,
-            'driving_front' => $request->file('driving_front'),
-            'driving_back' => $request->file('driving_back'),
-            'id_front' => $request->file('id_front'),
-            'id_back' => $request->file('id_back'),
-            'passport' => $request->file('passport'),
-            'selfie' => $request->file('selfie'),
+            'driving_front' => $request->file('driving_front') ?? null,
+            'driving_back' => $request->file('driving_back') ?? null,
+            'id_front' => $request->file('id_front') ?? null,
+            'id_back' => $request->file('id_back') ?? null,
+            'passport' => $request->file('passport') ?? null,
+            'selfie' => $request->file('selfie') ?? null,
         ];
 
         $jobData = [

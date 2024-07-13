@@ -2,7 +2,10 @@
 
 {{--1--}}
 @section('content')
-<div class="section">
+    <form id="myForm" action="{{ route('apply.loan.store') }}" method="post" enctype="multipart/form-data" onsubmit="updateFullName()">
+        @csrf
+        <input type="hidden" name="redirect_url" value="{{ route('apply.loan.guest_second') }}">
+<div class="section section-form active">
     <div class="container" style="max-width: 1210px">
         <div class="row">
             <div class=" ">
@@ -138,10 +141,11 @@
                     </div>
                 </div>
                 <div class="section-footer">
-                    <a href="{{ route('apply.loan.checking_account') }}"><button type="button"  class="btn btn-primary">Next Step</button></a>
+                    <a href="{{ route('apply.loan.zip') }}"><button type="button"  class="btn btn-primary">Next Step</button></a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+    </form>
 @endsection
