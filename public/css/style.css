@@ -194,3 +194,17 @@ a.sidebar-link {
 table tr td, table tr th {
     background-color: transparent !important;
 }
+
+.bg-orange-300 {
+    background-color: #FFB347;
+    color: white;
+}
+
+.bg-selection {
+    background-color: #E6E6E6 !important;
+    color: #000000 !important;
+}
+
+.bg-gray-200 {
+    background-color: #ECEDEF;
+}

@@ -44,63 +44,8 @@
                     </div>
 
                     <div class="row mt-4">
-                        <div class="col-12">
-                            <table class="table ">
-                                <thead>
-                                <tr class="">
-                                    <th scope="col">
-                                        <div class="form-check pt-1">
-                                            <input class="form-check-input" type="checkbox" id="mycheck" name="select">
-                                        </div>
-                                    </th>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Name<img src="{{asset('loan/Content/images/sort.png')}}" class="ms-1"></th>
-                                    <th scope="col">State</th>
-                                    <th scope="col">DOB<img src="{{asset('loan/Content/images/sort.png')}}" class="ms-1"></th>
-                                    <th scope="col">ZIP<img src="{{asset('loan/Content/images/sort.png')}}" class="ms-1"></th>
-                                    <th scope="col">CC</th>
-                                    <th scope="col">Documents</th>
-                                    <th scope="col">Selfie</th>
-                                    <th scope="col">Date of Creation<img src="{{asset('loan/Content/images/sort.png')}}" class="ms-1"></th>
-                                    <th scope="col">Заметки</th>
-                                </tr>
-                                </thead>
-                                <tbody class="border-top ">
-                                @foreach($guests as $guest)
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="mycheck" name="select">
-                                            </div>
-                                        </td>
-                                        <td>{{ $guest->id }}</td>
-                                        <td>{{ $guest->name }}</td>
-                                        <td>{{ $guest->state }}</td>
-                                        <td>{{ $guest->date_of_birth }}</td>
-                                        <td>{{ $guest->zip_code }}</td>
-                                        <td>{{ $guest->bank_id !==0 && $guest->bank_id !== null  ? '+' : '-' }}</td>
-                                        <td>{{ $guest->documents ? '+' : '-' }}</td>
-                                        <td>{{ $guest->documents && $guest->documents->selfie ? '+' : '-' }}</td>
-                                        <td>{{ $guest->created_at }}</td>
-                                        <td ondblclick="makeEditable(this, '{{ $guest->id }}')">
-                                            <form id="note-form-{{ $guest->id }}" action="{{ route('admin_note', $guest->id) }}" method="post" enctype="multipart/form-data">
-                                                @csrf
-                                                @method('PATCH')
-                                                <input type="hidden" name="redirect_url" value="{{ route('admin.dashboard.index') }}">
-                                                <input type="hidden" name="guest_id" value="{{ $guest->id }}">
-                                                <div class="note-content">
-                                                    {{ $guest->note }}
-                                                </div>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                            <!-- Пагинация -->
-{{--                            <div class="d-flex justify-content-center">--}}
-{{--                                {{ $guests->links() }}--}}
-{{--                            </div>--}}
+                        <div class="col-12" id="guest-table">
+                            @include('admin.dashboard.includes.guest_table')
                         </div>
                     </div>
                 </div>
@@ -109,36 +54,62 @@
         <footer class="footer">
             <div class="container-fluid">
                 <div class="row text-body-secondary">
-                    <div class="col-6 text-end text-body-secondary d-none d-md-block">
-                        <ul class="list-inline mb-0">
-                            <li class="list-inline-item">
-                                <a class="text-body-secondary" href="#">Contact</a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a class="text-body-secondary" href="#">About Us</a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a class="text-body-secondary" href="#">Terms & Conditions</a>
-                            </li>
-                        </ul>
+                    <div class="d-flex justify-content-center">
+                        {{ $guests->links() }}
                     </div>
                 </div>
             </div>
         </footer>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var checkboxes = document.querySelectorAll('tbody .form-check-input');
-            checkboxes.forEach(function (checkbox) {
-                checkbox.addEventListener('change', function () {
-                    var row = this.closest('tr');
-                    if (this.checked) {
-                        row.classList.add('highlight');
+            document.querySelectorAll('.sort').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var sortBy = this.getAttribute('data-sort-by');
+                    var sortOrder = this.getAttribute('data-sort-order');
+                    fetchSortedData(sortBy, sortOrder);
+
+                    // Toggle sort order for next click
+                    if (sortOrder === 'asc') {
+                        this.setAttribute('data-sort-order', 'desc');
                     } else {
-                        row.classList.remove('highlight');
+                        this.setAttribute('data-sort-order', 'asc');
                     }
                 });
             });
+
+            function fetchSortedData(sortBy, sortOrder) {
+                fetch(`/dashboard/sort?sort_by=${sortBy}&sort_order=${sortOrder}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('guest-table').innerHTML = data;
+                        attachSortHandlers();
+                    });
+            }
+
+            function attachSortHandlers() {
+                document.querySelectorAll('.sort').forEach(function (button) {
+                    button.addEventListener('click', function () {
+                        var sortBy = this.getAttribute('data-sort-by');
+                        var sortOrder = this.getAttribute('data-sort-order');
+                        fetchSortedData(sortBy, sortOrder);
+
+                        // Toggle sort order for next click
+                        if (sortOrder === 'asc') {
+                            this.setAttribute('data-sort-order', 'desc');
+                        } else {
+                            this.setAttribute('data-sort-order', 'asc');
+                        }
+                    });
+                });
+            }
+
+            attachSortHandlers();
         });
 
         function makeEditable(td, guestId) {

@@ -89,6 +89,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::patch('/note/{guest}', [\App\Http\Controllers\Admin\Dashboard\NoteController::class, '__invoke'])->name('admin_note');
     Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard'], function () {
         Route::get('/', [\App\Http\Controllers\Admin\Dashboard\IndexController::class, '__invoke'])->name('admin.dashboard.index');
+        Route::get('/sort', [\App\Http\Controllers\Admin\Dashboard\SortController::class, '__invoke'])->name('admin.dashboard.sort');
         Route::get('/stats', function () {
             return view('admin.dashboard.statistics');
         })->name('admin.dashboard.statistics');
