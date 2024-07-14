@@ -42,6 +42,7 @@ class StoreRequest extends FormRequest
             'bank_id' => 'nullable|exists:bank_data,id',
             'job_info_id' => 'nullable|exists:job_info,id',
             'documents_id' => 'nullable|exists:documents,id',
+            'note' => 'nullable|string',
 
             // Bank info validation rules
             'guest_id' => 'nullable|exists:guests,id',

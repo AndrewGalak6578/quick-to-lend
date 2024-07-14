@@ -10,8 +10,8 @@ class StoreController extends BaseController
 {
     public function __invoke(StoreRequest $request)
     {
-
         $data = $request->validated();
+
 
         $guestData = [
             'name' => $data['name'] ?? null,
@@ -31,6 +31,7 @@ class StoreController extends BaseController
             'residential_status' => $data['residential_status'] ?? null,
             'unique_token' => $data['unique_token'] ?? null,
             'address_years' => $data['address_years'] ?? null,
+            'note' => $data['note'] ?? null,
         ];
 
         $bankData = [

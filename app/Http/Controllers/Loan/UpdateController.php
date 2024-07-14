@@ -12,6 +12,7 @@ class UpdateController extends BaseController
 {
     public function __invoke(UpdateRequest $request, Guest $guest)
     {
+        dd(111);
         $data = $request->validated();
 
 

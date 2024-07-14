@@ -85,10 +85,19 @@ Route::group(['namespace' => 'Guest', 'prefix' => 'guests'], function () {
 //        Route::delete('/{bank}', [\App\Http\Controllers\Guest\Bank\DeleteController::class, '__invoke'])->name('bank.delete');
 //    });
 });
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth'], function () {
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
+    Route::patch('/note/{guest}', [\App\Http\Controllers\Admin\Dashboard\NoteController::class, '__invoke'])->name('admin_note');
     Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard'], function () {
         Route::get('/', [\App\Http\Controllers\Admin\Dashboard\IndexController::class, '__invoke'])->name('admin.dashboard.index');
+        Route::get('/stats', function () {
+            return view('admin.dashboard.statistics');
+        })->name('admin.dashboard.statistics');
+        Route::get('/settings', function () {
+            return view('admin.dashboard.setting');
+        })->name('admin.dashboard.setting');
+
     });
+
 
 });
 //Route::middleware('auth')->group(function () {
