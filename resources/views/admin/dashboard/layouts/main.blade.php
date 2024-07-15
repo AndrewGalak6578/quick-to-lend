@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
         .bg-orange-300 {
-            background-color: #FFB347;
+            background-color: #EBC183;
             color: white;
         }
         .bg-orange-300:hover {
@@ -23,42 +23,16 @@
         .bg-gray-200 {
             background-color: #ECEDEF;
         }
-        .sidebar-sds {
-            width: 60px;
-            background-color: white;
-            border-radius: 30px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 15px 0;
+        .bg-gray-200:hover {
+            background-color: #ECEDEF;
         }
-        .sidebar-nav {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            width: 100%;
+        .bg-green {
+            background-color: #A9EDA8;
         }
-        .sidebar-item {
-            width: 100%;
-            text-align: center;
-            margin-bottom: 20px;
+        .bg-green:hover {
+            background-color: greenyellow;
         }
-        .sidebar-item.mt-auto {
-            margin-top: auto;
-        }
-        .sidebar-link {
-            color: #333;
-            font-size: 24px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 60px;
-        }
+
     </style>
 </head>
 <body>
@@ -70,7 +44,6 @@
     </aside>
 
     @yield('content')
-    <i class="fas fa-envelope"></i>
 </div>
 
 <!-- jQuery -->

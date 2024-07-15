@@ -57,6 +57,8 @@ Route::group(['namespace' => 'Auth'], function () {
     Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('login', [LoginController::class, 'login']);
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('register', [\App\Http\Controllers\Auth\RegisterController::class, 'showRegisterForm'])->name('register');
+    Route::post('register', [\App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register');
 
 });
 
@@ -85,24 +87,22 @@ Route::group(['namespace' => 'Guest', 'prefix' => 'guests'], function () {
 //        Route::delete('/{bank}', [\App\Http\Controllers\Guest\Bank\DeleteController::class, '__invoke'])->name('bank.delete');
 //    });
 });
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::patch('/note/{guest}', [\App\Http\Controllers\Admin\Dashboard\NoteController::class, '__invoke'])->name('admin_note');
     Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard'], function () {
         Route::get('/', [\App\Http\Controllers\Admin\Dashboard\IndexController::class, '__invoke'])->name('admin.dashboard.index');
         Route::get('/sort', [\App\Http\Controllers\Admin\Dashboard\SortController::class, '__invoke'])->name('admin.dashboard.sort');
+        Route::get('/download', [\App\Http\Controllers\Admin\Dashboard\DownloadController::class, '__invoke'])->name('admin.dashboard.download');
         Route::get('/stats', function () {
             return view('admin.dashboard.statistics');
         })->name('admin.dashboard.statistics');
         Route::get('/settings', function () {
             return view('admin.dashboard.setting');
         })->name('admin.dashboard.setting');
-
     });
-
-
 });
-//Route::middleware('auth')->group(function () {
-//    Route::get('dashboard', function () {
-//        return view('dashboard');
-//    })->name('dashboard');
-//});
+Route::middleware('auth')->group(function () {
+    Route::get('dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

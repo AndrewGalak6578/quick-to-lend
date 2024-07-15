@@ -12,7 +12,7 @@
                                 <div class="col-4">
                                     <div class="border border-2 rounded-4 ps-4 bg-transparent">
                                         <h1 class="fw-bold fs-4 mb-4 pt-3">Количество заявок</h1>
-                                        <div class="wrapper mb-4">
+                                        <div class="wrapper mb-4 fw-semibold">
                                             <div class="d-flex mt-4 flex-row">
                                                 <div class="bar me-3">
                                                     <div class="bar-value">292</div>
@@ -40,7 +40,7 @@
 
                                     <div class="border border-3 rounded-4 ps-4 mt-4 bg-transparent">
                                         <h1 class="fw-bold fs-4 mb-4 pt-3">Документы в заявках</h1>
-                                        <div class="wrapper mb-4">
+                                        <div class="wrapper mb-4 fw-semibold">
                                             <div class="d-flex mt-4 flex-row">
                                                 <div class="bar me-3">
                                                     <div class="bar-value">292</div>
@@ -68,6 +68,10 @@
                                                     <span class="dot"></span>
                                                     <span>Всего 292 шт</span>
                                                 </div>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="dot"></span>
+                                                    <span>Всего 292 шт</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -81,7 +85,7 @@
                                         </form>
                                         <div class="container">
                                             <div class="row mt-4">
-                                                <div class="col">
+                                                <div class="col fw-semibold">
                                                     <div class="d-flex align-items-center mb-2">
                                                         <span class="dot"></span>
                                                         <span>DL</span>
@@ -128,7 +132,7 @@
                                                         <span class="ms-4">292 шт</span>
                                                     </div>
                                                 </div>
-                                                <div class="col">
+                                                <div class="col fw-semibold">
                                                     <div class="d-flex align-items-center mb-2">
                                                         <span class="dot"></span>
                                                         <span>DL</span>
@@ -175,7 +179,7 @@
                                                         <span class="ms-4">292 шт</span>
                                                     </div>
                                                 </div>
-                                                <div class="col">
+                                                <div class="col fw-semibold">
                                                     <div class="d-flex align-items-center mb-2">
                                                         <span class="dot"></span>
                                                         <span>DL</span>
@@ -222,7 +226,7 @@
                                                         <span class="ms-4">292 шт</span>
                                                     </div>
                                                 </div>
-                                                <div class="col">
+                                                <div class="col fw-semibold">
                                                     <div class="d-flex align-items-center mb-2">
                                                         <span class="dot"></span>
                                                         <span>DL</span>
