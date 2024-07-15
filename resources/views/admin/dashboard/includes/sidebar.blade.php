@@ -2,7 +2,7 @@
     <ul class="sidebar-nav">
         <li class="sidebar-item mb-3">
             <div class="circle">
-                <a href="{{ route('admin.dashboard.index') }}" class="sidebar-link">
+                <a href="{{ route('admin.dashboard.statistics') }}" class="sidebar-link">
                     <i class="fas fa-clipboard-list"></i>
                 </a>
             </div>
@@ -48,7 +48,7 @@
 
         <li class="sidebar-item mt-auto">
             <div class="circle">
-                <a href="#" class="sidebar-link">
+                <a href="{{ route('admin.dashboard.setting') }}" class="sidebar-link">
                     <i class="fas fa-cog"></i>
                 </a>
             </div>

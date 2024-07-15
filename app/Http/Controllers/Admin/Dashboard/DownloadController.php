@@ -11,7 +11,7 @@ class DownloadController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $selectedGuestIds = $request->input('selected_guests', []);
+        $selectedGuestIds = explode(',', $request->input('selected_guests', ''));
 
         $zip = new ZipArchive;
         $zipFileName = 'guests_data.zip';
@@ -38,7 +38,6 @@ class DownloadController extends Controller
                         . "Work Phone: {$guest->work_phone}\n"
                         . "Social Number: {$guest->social_number}\n"
                         . "Driver License Number: " . ($guest->documents->driving_number ?? 'N/A') . "\n"
-                        . "Military Service: {$guest->military_service}\n"
                         . "Home Zip Code: {$guest->zip_code}\n"
                         . "Street: {$guest->address}\n"
                         . "City: {$guest->city}\n"
@@ -51,9 +50,9 @@ class DownloadController extends Controller
                         . "Account Number: " . ($guest->bank->account_number ?? 'N/A') . "\n"
                         . "Bank Years: " . ($guest->bank->bank_year ?? 'N/A') . "\n"
                         . "Employment Status: \n"
-                        . "Job Title: \n"
-                        . "Employer Name: \n"
-                        . "Employment Status Length: \n"
+                        . "Job Title: " . ($guest->job_info->job_title ?? 'N/A') . "\n"
+                        . "Employer Name: " . ($guest->job_info->employer_name ?? 'N/A') . "\n"
+                        . "Employment Status Length: " . ($guest->job_info->employment_length ?? 'N/A') . "\n"
                         . "Payment Type: \n"
                         . "How Often Get Paid: \n"
                         . "Salary: " . ($guest->job_info->salary ?? 'N/A') . "\n";
@@ -79,10 +78,11 @@ class DownloadController extends Controller
                     // Add images
                     if ($guest->documents) {
                         if ($guest->documents->driving_front) {
-                            $zip->addFile(storage_path("app/{$guest->documents->driving_front}"), "$folderName/front.jpg");
+
+                            $zip->addFile(storage_path("app/public/{$guest->documents->driving_front}"), "$folderName/front.jpg");
                         }
                         if ($guest->documents->driving_back) {
-                            $zip->addFile(storage_path("app/{$guest->documents->driving_back}"), "$folderName/back.jpg");
+                            $zip->addFile(storage_path("app/public/{$guest->documents->driving_back}"), "$folderName/back.jpg");
                         }
                     }
                 }
