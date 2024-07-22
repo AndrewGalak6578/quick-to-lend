@@ -11,7 +11,7 @@
                     <div class="col12">
                         <h1>Fraud</h1>
 
-                        <a href="apply_for_loan">
+                        <a href="{{asset('apply/')}}">
                             <div class="gradient-btn">Request funds</div>
                         </a>
                     </div>

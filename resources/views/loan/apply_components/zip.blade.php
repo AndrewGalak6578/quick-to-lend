@@ -2,6 +2,13 @@
 
 {{--2--}}
 @section('content')
+    <style>
+        .error-message {
+            color: #9c4b45;
+            margin-top: 5px;
+        }
+    </style>
+
     <form action="{{ route('apply.loan.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('POST')
@@ -37,7 +44,7 @@
                         </div>
                         <div id="zipcode-field" class="hide_element">
                             <div class="form-group">
-                                <label>What is your Zep code?</label>
+                                <label>What is your Zip code?</label>
                                 <input id="zipcode-fill"  type="text" name="zip_code"
                                        class="form-control" autocomplete="postal-code"/>
                                 <div class="messages"></div>
@@ -48,12 +55,28 @@
                             </div>
                         </div>
                         <div class="section-footer">
-                            <button type="button" onclick="nextPrev(-1)" class="btn">Previous Step</button>
-                            <button type="submit"  class="btn btn-primary">Next Step</button>
+                            <a href="{{ route('apply.loan.amount') }}"><button type="button"  class="btn btn-secondary">Previous Step</button></a>
+                            <a ><button type="submit" class="btn btn-primary">Next Step</button></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </form>
+    <script>
+        document.getElementById('zipcode-fill').addEventListener('input', function() {
+            const zipCode = this.value;
+            const messagesDiv = document.querySelector('.messages');
+            const zipCodePattern = /^\d{5}(?:[-\s]\d{4})?$/;
+
+            messagesDiv.innerHTML = ''; // Clear previous messages
+
+            if (zipCode && !zipCodePattern.test(zipCode)) {
+                const errorMessage = document.createElement('div');
+                errorMessage.classList.add('error-message');
+                errorMessage.textContent = 'Zip code does not appear to be valid';
+                messagesDiv.appendChild(errorMessage);
+            }
+        });
+    </script>
 @endsection

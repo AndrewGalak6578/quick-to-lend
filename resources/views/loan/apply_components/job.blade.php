@@ -1,6 +1,12 @@
 @extends('loan.apply_for_loan')
 {{--3--}}
 @section('content')
+    <style>
+        .error-message {
+            color: #9c4b45;
+            margin-top: 5px;
+        }
+    </style>
     <form action="{{ route('apply.loan.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="redirect_url" value="{{ route('apply.loan.guest_info') }}">
@@ -71,13 +77,13 @@
                                 <label>What is your job title?</label>
                                 <input onkeyup="toCapitalize(event)" id="jobtitle" type="text" name="job_title"
                                        class="form-control" autocomplete="organization-title"/>
-                                <div class="messages"></div>
+                                <div id="jobtitle-messages" class="messages"></div>
                             </div>
                             <div class="form-group">
                                 <label>What is your employer's name?</label>
                                 <input onkeyup="toCapitalize(event)" id="employername" type="text" name="employer_name"
                                        class="form-control" autocomplete="organization"/>
-                                <div class="messages"></div>
+                                <div id="employername-messages" class="messages"></div>
                             </div>
                             <div class="helpnote">We do not contact your employer</div>
 
@@ -177,25 +183,73 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label>
-                                What is your <span id="net_gross_monthly">Net Monthly</span> Pay Amount?
-                            </label>
-                            <input placeholder="Minimum $800" id="netamount" type="number" class="form-control"
-                                   name="salary" autocomplete="off">
-                            <div id="net_gross_monthly_msg" class="helpnote">The total after-tax amount of income or pay
-                                earned each month from all sources.
+                        <div class="container mt-5">
+                            <div class="form-group">
+                                <label>
+                                    What is your <span id="net_gross_monthly">Net Monthly</span> Pay Amount?
+                                </label>
+                                <input placeholder="Minimum $800" id="netamount" type="number" class="form-control" name="salary" autocomplete="off">
+                                <div id="net_gross_monthly_msg" class="helpnote">
+                                    The total after-tax amount of income or pay earned each month from all sources.
+                                </div>
+                                <div id="netamount-messages" class="messages"></div>
                             </div>
-                            <div class="messages"></div>
                         </div>
 
                         <div class="section-footer">
-                            <button type="button" onclick="nextPrev(-1)" class="btn">Previous Step</button>
-                            <button type="submit"  class="btn btn-primary">Next Step</button>
+                            <a href="{{ route('apply.loan.zip') }}"><button type="button"  class="btn btn-secondary">Previous Step</button></a>
+                            <a ><button type="submit" class="btn btn-primary">Next Step</button></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </form>
+    <script>
+        document.getElementById('netamount').addEventListener('input', function() {
+            const amount = this.value;
+            const messagesDiv = document.getElementById('netamount-messages');
+            const minAmount = 800;
+            const maxAmount = 9999;
+
+            messagesDiv.innerHTML = ''; // Clear previous messages
+
+            if (amount && (amount < minAmount || amount > maxAmount)) {
+                const errorMessage = document.createElement('div');
+                errorMessage.classList.add('error-message');
+                errorMessage.textContent = 'Net monthly amount must be between $800 and $9999.';
+                messagesDiv.appendChild(errorMessage);
+            }
+        });
+
+        document.getElementById('jobtitle').addEventListener('input', function() {
+            const jobTitle = this.value;
+            const messagesDiv = document.getElementById('jobtitle-messages');
+            const minLength = 3;
+
+            messagesDiv.innerHTML = ''; // Clear previous messages
+
+            if (jobTitle && jobTitle.length < minLength) {
+                const errorMessage = document.createElement('div');
+                errorMessage.classList.add('error-message');
+                errorMessage.textContent = 'Job title is too short (minimum is 3 characters).';
+                messagesDiv.appendChild(errorMessage);
+            }
+        });
+
+        document.getElementById('employername').addEventListener('input', function() {
+            const employerName = this.value;
+            const messagesDiv = document.getElementById('employername-messages');
+            const minLength = 2;
+
+            messagesDiv.innerHTML = ''; // Clear previous messages
+
+            if (employerName && employerName.length < minLength) {
+                const errorMessage = document.createElement('div');
+                errorMessage.classList.add('error-message');
+                errorMessage.textContent = 'Employer name is too short (minimum is 2 characters).';
+                messagesDiv.appendChild(errorMessage);
+            }
+        });
+    </script>
 @endsection

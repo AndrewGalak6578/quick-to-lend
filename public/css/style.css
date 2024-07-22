@@ -1,4 +1,4 @@
-@im@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 @import url('https://fonts.cdnfonts.com/css/gilroy-bold');
 
 ::after,
@@ -261,6 +261,24 @@ table tr td, table tr th {
     outline: 0;
     background-color: transparent;
 }
+
+.input-box .lni{
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+.border {
+    transition: all 0.3s ease;
+}
+
+.collapsible-content {
+    overflow: hidden;
+    height: 0;
+    transition: height 0.3s ease;
+}
+
 .btn.bg-orange-300 {
     background-color: #FFA500;
     color: white;
@@ -270,3 +288,5 @@ table tr td, table tr th {
     background-color: #FF8C00;
     color: white;
 }
+
+

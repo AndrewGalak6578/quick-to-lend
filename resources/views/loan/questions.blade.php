@@ -12,7 +12,7 @@
                         <h1>Frequently Asked Questions</h1>
                         <p>Have a question? We've got answers!</p>
 
-                        <a href="apply_for_loan">
+                        <a href="{{asset('apply/')}}">
                             <div class="gradient-btn">Request funds</div>
                         </a>
                     </div>
@@ -172,7 +172,7 @@
                         </div>
                         <div class="answer">
                             <p>
-                                Within a few minutes, you will receive a notification from a <a title="Quick2Lend" href="start_your_loan">www.quick2lend.com</a> approved lender letting you know if you’re approved! If you are presented with a loan offer, you will have the option to review the terms of the loan, which you may approve or declined. Remember, this is a FREE loan quoting service, there is no obligation until after you have agreed to receive a loan from one of our panel of lenders.
+                                Within a few minutes, you will receive a notification from a <a title="Quick2Lend" href="{{asset('start/')}}">www.quick2lend.com</a> approved lender letting you know if you’re approved! If you are presented with a loan offer, you will have the option to review the terms of the loan, which you may approve or declined. Remember, this is a FREE loan quoting service, there is no obligation until after you have agreed to receive a loan from one of our panel of lenders.
                             </p>
                         </div>
                         <hr>
@@ -217,7 +217,7 @@
                         </div>
                         <div class="answer">
                             <p>
-                                Lenders in the <a title="Quick2Lend" href="start_your_loan">www.quick2lend.com</a> network follow different policies regarding late payments. Most lenders apply a late fee for missing the loan payment deadline or asking to skip a payment. You should review and understand the late payment policy specified in the lender’s loan documents before accepting the loan terms and signing the loan agreement.
+                                Lenders in the <a title="Quick2Lend" href="{{asset('start/')}}">www.quick2lend.com</a> network follow different policies regarding late payments. Most lenders apply a late fee for missing the loan payment deadline or asking to skip a payment. You should review and understand the late payment policy specified in the lender’s loan documents before accepting the loan terms and signing the loan agreement.
                             </p>
                         </div>
                         <hr>
@@ -232,7 +232,7 @@
                         </div>
                         <div class="answer">
                             <p>
-                                Your privacy and security are of the utmost importance to <a title="Quick2Lend" href="start_your_loan">www.quick2lend.com</a>! Our site offers encryption technology that allows you to use <a title="Quick2Lend" href="start_your_loan">www.quick2lend.com</a> with confidence. See our privacy policy for further details about our security.
+                                Your privacy and security are of the utmost importance to <a title="Quick2Lend" href="{{asset('start/')}}">www.quick2lend.com</a>! Our site offers encryption technology that allows you to use <a title="Quick2Lend" href="{{asset('start/')}}">www.quick2lend.com</a> with confidence. See our privacy policy for further details about our security.
                             </p>
                         </div>
                         <hr>

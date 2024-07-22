@@ -38,7 +38,7 @@
         </div>
     </nav>
 </header>
-@yield('main')
+@yield('content')
 
 <div class=footer>
     <div class=container><a href="{{asset('start/')}}"> <img data-src="{{ asset('/loan/Content/images/logo-white.png') }}"
@@ -74,7 +74,7 @@
 </div>
 <script src="{{ asset('loan/bundles/scripts@v=_iCNhP9Da_icN3wM1WuWqR8PlhUjs_SjuTJdm6AA57s1') }}"></script>
 <script src="{{ asset('loan/bundles/testscript@v=GpSCeLXpIIh7jpv9ujom8hBjWpbnV5afoYy_vz48U2I1') }}"></script>
-
+<script defer src="https://www.googletagmanager.com/gtag/js?id=G-7VZEYXP7DL"></script>
 <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src='{{ asset('loan/bundles/pixels@v=zzpmdVnRsYZ7OydU8ouIQtSotJORn4C1bycXWwlEDDw1') }}' defer></script>
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

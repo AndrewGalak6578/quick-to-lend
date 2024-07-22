@@ -68,7 +68,6 @@
 
 
                 <div id="opaque" style="display: none;"></div>
-            @include('loan.apply_components.cc_info_modal')
 
 
 

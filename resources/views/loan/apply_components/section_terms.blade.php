@@ -1,5 +1,6 @@
 @extends('loan.apply_for_loan')
 @section('content')
+    <input type="hidden" name="redirect_url" value="{{ route('start.loan.start_your_loan') }}">
     <div class="section  section-terms">
         <div class="container">
             <div class="row">
@@ -31,7 +32,7 @@
                                 <p class="term-paragraph" style="font-size: 13px; margin-bottom: 0">
                                     <strong>Please check to confirm</strong><br/>
                                     I wish to receive recurring communication from PingYo and <a
-                                        href="apply_for_a_loan_now.html#"
+                                        href="{{asset('apply/')}}"
                                         onclick="alert('By using our service, your information may be shared with, and you may be contacted by the third-parties listed below, along with their parent companies, subsidiaries, related entities, and service providers acting on their behalf. For a more detailed explanation of how and why your information may be shared with these third-parties, please see our Privacy Policy.\r\n\r\nGlobal Digital Revenue LLC, HomeOptions, Lending Club, Prosper, SoFi, Marcus, Best Egg, LightStream, Freedom Plus, Avant, Upgrade, Lending Point, Upstart, Payoff, One Main Financial, Net Credit, OppLoans, FigLoans, Tally, MoneyKey, 60MonthLoans, Personify, Elevate, Lending USA, Axos Bank, Figure, Mariner Finance, Merrick bank, Universal Credit, CreditFresh, Bankers Healthcare Group, PenFed Credit Union, Lydgen LLC')">3rd
                                         Party Partners</a> via telephone, text message or email using the number
                                     provided on the application.
@@ -54,20 +55,17 @@
                             <small>
                                 <strong>California Residents:</strong>
                                 <br/>
-                                <a class="affiliateCCPANoticeUrl" target="_blank" href="ccpa.html" rel="nofollow">CCPA
+                                <a class="affiliateCCPANoticeUrl" target="_blank" href="{{assert('start/ccpa')}}" rel="nofollow">CCPA
                                     Notice</a>
                                 <br/>
-                                <a class="affiliateDonotsellUrl" target="_blank" href="ccpa_do_not_sell.html"
+                                <a class="affiliateDonotsellUrl" target="_blank" href="{{assert('start/ccpa_do_not_sell')}}"
                                    rel="nofollow">Do Not Sell My Information</a>
                             </small>
                         </p>
                     </div>
 
                     <div class="section-footer">
-                        <button type="button" onclick="nextPrev(-1)" class="btn">Previous Step</button>
-                        <button id="submission-button" type="button" onclick="submitFormWithOfferCheck()"
-                                class="btn btn-primary">Get my quote
-                        </button>
+                        <button id="submission-button" type="submit" class="btn btn-primary">Get my quote </button>
                     </div>
                 </div>
             </div>

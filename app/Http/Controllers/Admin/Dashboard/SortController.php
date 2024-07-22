@@ -52,6 +52,10 @@ class SortController extends Controller
 
         $guests = $guests->paginate(10);
 
+        if ($request->ajax()) {
+            return view('admin.dashboard.includes.guest_table', compact('guests'))->render();
+        }
+
         return view('admin.dashboard.dashboard', compact('guests', 'sortBy', 'sortOrder', 'search', 'filter'));
     }
 }

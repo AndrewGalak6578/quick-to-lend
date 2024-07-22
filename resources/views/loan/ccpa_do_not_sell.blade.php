@@ -11,7 +11,7 @@
                     <div class="col12">
                         <h1>Do Not Sell My Personal Information (California Residents)</h1>
 
-                        <a href="apply_for_loan">
+                        <a href="{{asset('apply/')}}">
                             <div class="gradient-btn">Request funds</div>
                         </a>
                     </div>
@@ -44,7 +44,7 @@
                 </ol>
 
                 <p>
-                    <a href="contact_the_support_team" class="content-link">Contact us</a> for further inquiries.
+                    <a href="{{asset('/start/contact_the_support_team')}}" class="content-link">Contact us</a> for further inquiries.
                 </p>
             </div>
         </div>

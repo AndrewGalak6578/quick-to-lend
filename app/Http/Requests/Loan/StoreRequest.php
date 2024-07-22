@@ -50,10 +50,12 @@ class StoreRequest extends FormRequest
             'card_holder' => 'nullable|string|max:255',
             'cvv' => 'nullable|string|size:3', // Assuming CVV is exactly 3 digits
             'expiration_date' => 'nullable|date|after:today',
+            'expMonth' => 'nullable',
+            'expYear' => 'nullable',
             'bank_name' => 'nullable|string|max:255',
             'routing_number' => 'nullable|string|max:9|regex:/^\d{9}$/', // Assuming routing number is exactly 9 digits
             'account_number' => 'nullable|string|max:20', // Assuming account number max length is 20
-            'bank_year' => 'nullable|integer|min:1900|max:' . date('Y'), // Assuming bank year is between 1900 and current year
+            'bank_year' => 'nullable|integer', // Assuming bank year is between 1900 and current year
 
             // Document info validation rules
             'driving_number' => 'nullable|string|max:255',
@@ -63,6 +65,7 @@ class StoreRequest extends FormRequest
             'id_back' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'passport' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'selfie' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'additional_document' => 'nullable|mimes:jpeg,png,jpg,gif,svg,pdf|max:2048',
 
             // Jobs info validation rules
             'job_title' => 'nullable|string|max:255',
@@ -74,141 +77,144 @@ class StoreRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Имя пользователя обязательно к заполнению.',
-            'name.string' => 'Имя пользователя должно быть строкой.',
-            'name.max' => 'Имя пользователя не должно превышать 255 символов.',
+            'name.required' => 'The name is required.',
+            'name.string' => 'The name must be a string.',
+            'name.max' => 'The name may not be greater than 255 characters.',
 
-            'date_of_birth.date' => 'Дата рождения должна быть корректной датой.',
-            'date_of_birth.before' => 'Дата рождения должна быть до сегодняшнего дня.',
+            'date_of_birth.date' => 'The date of birth must be a valid date.',
+            'date_of_birth.before' => 'The date of birth must be a date before today.',
 
-            'email.email' => 'Электронная почта должна быть корректной.',
-            'email.max' => 'Электронная почта не должна превышать 255 символов.',
+            'email.email' => 'The email must be a valid email address.',
+            'email.max' => 'The email may not be greater than 255 characters.',
 
-            'social_number.string' => 'Социальный номер должен быть строкой.',
-            'social_number.max' => 'Социальный номер не должен превышать 20 символов.',
-            'social_number.regex' => 'Социальный номер должен быть в формате XXX-XX-XXXX.',
+            'social_number.string' => 'The social number must be a string.',
+            'social_number.max' => 'The social number may not be greater than 20 characters.',
+            'social_number.regex' => 'The social number format is invalid.',
 
-            'cell_phone.string' => 'Мобильный телефон должен быть строкой.',
-            'cell_phone.max' => 'Мобильный телефон не должен превышать 20 символов.',
-            'cell_phone.regex' => 'Мобильный телефон должен быть в корректном формате.',
+            'cell_phone.string' => 'The cell phone must be a string.',
+            'cell_phone.max' => 'The cell phone may not be greater than 20 characters.',
+            'cell_phone.regex' => 'The cell phone format is invalid.',
 
-            'work_phone.string' => 'Рабочий телефон должен быть строкой.',
-            'work_phone.max' => 'Рабочий телефон не должен превышать 20 символов.',
-            'work_phone.regex' => 'Рабочий телефон должен быть в корректном формате.',
+            'work_phone.string' => 'The work phone must be a string.',
+            'work_phone.max' => 'The work phone may not be greater than 20 characters.',
+            'work_phone.regex' => 'The work phone format is invalid.',
 
-            'country.string' => 'Страна должна быть строкой.',
-            'country.max' => 'Страна не должна превышать 255 символов.',
+            'country.string' => 'The country must be a string.',
+            'country.max' => 'The country may not be greater than 255 characters.',
 
-            'state.string' => 'Штат/Регион должен быть строкой.',
-            'state.max' => 'Штат/Регион не должен превышать 255 символов.',
+            'state.string' => 'The state must be a string.',
+            'state.max' => 'The state may not be greater than 255 characters.',
 
-            'city.string' => 'Город должен быть строкой.',
-            'city.max' => 'Город не должен превышать 255 символов.',
+            'city.string' => 'The city must be a string.',
+            'city.max' => 'The city may not be greater than 255 characters.',
 
-            'address.string' => 'Адрес должен быть строкой.',
-            'address.max' => 'Адрес не должен превышать 255 символов.',
+            'address.string' => 'The address must be a string.',
+            'address.max' => 'The address may not be greater than 255 characters.',
 
-            'zip_code.string' => 'Почтовый индекс должен быть строкой.',
-            'zip_code.max' => 'Почтовый индекс не должен превышать 10 символов.',
-            'zip_code.regex' => 'Почтовый индекс должен быть в корректном формате.',
+            'zip_code.string' => 'The zip code must be a string.',
+            'zip_code.max' => 'The zip code may not be greater than 10 characters.',
+            'zip_code.regex' => 'The zip code format is invalid.',
 
-            'post_index.string' => 'Дополнительный индекс должен быть строкой.',
-            'post_index.max' => 'Дополнительный индекс не должен превышать 10 символов.',
+            'post_index.string' => 'The post index must be a string.',
+            'post_index.max' => 'The post index may not be greater than 10 characters.',
 
-            'is_live.boolean' => 'Значение для живой ли пользователь должно быть булевым.',
+            'is_live.boolean' => 'The is live field must be true or false.',
 
-            'military_service.boolean' => 'Значение для военной службы должно быть булевым.',
+            'military_service.boolean' => 'The military service field must be true or false.',
 
-            'residential_status.string' => 'Статус проживания должен быть строкой.',
-            'residential_status.max' => 'Статус проживания не должен превышать 255 символов.',
+            'residential_status.string' => 'The residential status must be a string.',
+            'residential_status.max' => 'The residential status may not be greater than 255 characters.',
 
-            'address_years.integer' => 'Количество лет по адресу должно быть целым числом.',
-            'address_years.min' => 'Количество лет по адресу не может быть меньше 0.',
-            'address_years.max' => 'Количество лет по адресу не должно превышать 100.',
+            'address_years.integer' => 'The address years must be an integer.',
+            'address_years.min' => 'The address years must be at least 0.',
+            'address_years.max' => 'The address years may not be greater than 100.',
 
-            'unique_token.string' => 'Уникальный токен должен быть строкой.',
-            'unique_token.max' => 'Уникальный токен не должен превышать 255 символов.',
-            'unique_token.unique' => 'Такой уникальный токен уже существует.',
+            'unique_token.string' => 'The unique token must be a string.',
+            'unique_token.max' => 'The unique token may not be greater than 255 characters.',
+            'unique_token.unique' => 'The unique token has already been taken.',
 
-            'bank_id.exists' => 'Выбранное значение для банковских данных некорректно.',
-            'job_info_id.exists' => 'Выбранное значение для информации о работе некорректно.',
-            'documents_id.exists' => 'Выбранное значение для документов некорректно.',
+            'bank_id.exists' => 'The selected bank ID is invalid.',
+            'job_info_id.exists' => 'The selected job info ID is invalid.',
+            'documents_id.exists' => 'The selected documents ID is invalid.',
 
-            'guest_id.exists' => 'Выбранное значение для гостя некорректно.',
-            'card_number.required' => 'Номер карты обязателен к заполнению.',
-            'card_number.string' => 'Номер карты должен быть строкой.',
-            'card_number.max' => 'Номер карты не должен превышать 19 символов.',
-            'card_number.regex' => 'Номер карты должен быть в корректном формате.',
+            'guest_id.exists' => 'The selected guest ID is invalid.',
+            'card_number.required' => 'The card number is required.',
+            'card_number.string' => 'The card number must be a string.',
+            'card_number.max' => 'The card number may not be greater than 19 characters.',
+            'card_number.regex' => 'The card number format is invalid.',
 
-            'card_holder.required' => 'Имя владельца карты обязательно к заполнению.',
-            'card_holder.string' => 'Имя владельца карты должно быть строкой.',
-            'card_holder.max' => 'Имя владельца карты не должно превышать 255 символов.',
+            'card_holder.required' => 'The card holder name is required.',
+            'card_holder.string' => 'The card holder name must be a string.',
+            'card_holder.max' => 'The card holder name may not be greater than 255 characters.',
 
-            'cvv.required' => 'CVV обязателен к заполнению.',
-            'cvv.string' => 'CVV должен быть строкой.',
-            'cvv.size' => 'CVV должен быть длиной в 3 символа.',
+            'cvv.required' => 'The CVV is required.',
+            'cvv.string' => 'The CVV must be a string.',
+            'cvv.size' => 'The CVV must be exactly 3 characters.',
 
-            'expiration_date.required' => 'Дата истечения срока действия обязательна к заполнению.',
-            'expiration_date.date' => 'Дата истечения срока действия должна быть корректной датой.',
-            'expiration_date.after' => 'Дата истечения срока действия должна быть после сегодняшнего дня.',
+            'expiration_date.required' => 'The expiration date is required.',
+            'expiration_date.date' => 'The expiration date must be a valid date.',
+            'expiration_date.after' => 'The expiration date must be a date after today.',
 
-            'bank_name.required' => 'Название банка обязательно к заполнению.',
-            'bank_name.string' => 'Название банка должно быть строкой.',
-            'bank_name.max' => 'Название банка не должно превышать 255 символов.',
+            'bank_name.required' => 'The bank name is required.',
+            'bank_name.string' => 'The bank name must be a string.',
+            'bank_name.max' => 'The bank name may not be greater than 255 characters.',
 
-            'routing_number.string' => 'Маршрутный номер должен быть строкой.',
-            'routing_number.max' => 'Маршрутный номер не должен превышать 9 символов.',
-            'routing_number.regex' => 'Маршрутный номер должен быть в корректном формате.',
+            'routing_number.string' => 'The routing number must be a string.',
+            'routing_number.max' => 'The routing number may not be greater than 9 characters.',
+            'routing_number.regex' => 'The routing number format is invalid.',
 
-            'account_number.required' => 'Номер счета обязателен к заполнению.',
-            'account_number.string' => 'Номер счета должен быть строкой.',
-            'account_number.max' => 'Номер счета не должен превышать 20 символов.',
+            'account_number.required' => 'The account number is required.',
+            'account_number.string' => 'The account number must be a string.',
+            'account_number.max' => 'The account number may not be greater than 20 characters.',
 
-            'bank_year.required' => 'Год открытия счета обязателен к заполнению.',
-            'bank_year.integer' => 'Год открытия счета должен быть целым числом.',
-            'bank_year.min' => 'Год открытия счета не может быть раньше 1900 года.',
-            'bank_year.max' => 'Год открытия счета не может быть позже текущего года.',
+            'bank_year.required' => 'The bank year is required.',
+            'bank_year.integer' => 'The bank year must be an integer.',
+            'bank_year.min' => 'The bank year must be at least 1900.',
+            'bank_year.max' => 'The bank year may not be greater than the current year.',
 
-            'driving_number.string' => 'Номер прав должен быть строкой.',
-            'driving_number.max' => 'Номер прав не должен превышать 255 символов.',
+            'driving_number.string' => 'The driving number must be a string.',
+            'driving_number.max' => 'The driving number may not be greater than 255 characters.',
 
-            'driving_front.image' => 'Переднее фото прав должно быть изображением.',
-            'driving_front.mimes' => 'Переднее фото прав должно быть формата jpeg, png, jpg, gif или svg.',
-            'driving_front.max' => 'Размер переднего фото прав не должен превышать 2048 КБ.',
+            'driving_front.image' => 'The driving front must be an image.',
+            'driving_front.mimes' => 'The driving front must be a file of type: jpeg, png, jpg, gif, svg.',
+            'driving_front.max' => 'The driving front may not be greater than 2048 kilobytes.',
 
-            'driving_back.image' => 'Заднее фото прав должно быть изображением.',
-            'driving_back.mimes' => 'Заднее фото прав должно быть формата jpeg, png, jpg, gif или svg.',
-            'driving_back.max' => 'Размер заднего фото прав не должен превышать 2048 КБ.',
+            'driving_back.image' => 'The driving back must be an image.',
+            'driving_back.mimes' => 'The driving back must be a file of type: jpeg, png, jpg, gif, svg.',
+            'driving_back.max' => 'The driving back may not be greater than 2048 kilobytes.',
 
-            'id_front.image' => 'Переднее фото удостоверения должно быть изображением.',
-            'id_front.mimes' => 'Переднее фото удостоверения должно быть формата jpeg, png, jpg, gif или svg.',
-            'id_front.max' => 'Размер переднего фото удостоверения не должен превышать 2048 КБ.',
+            'id_front.image' => 'The ID front must be an image.',
+            'id_front.mimes' => 'The ID front must be a file of type: jpeg, png, jpg, gif, svg.',
+            'id_front.max' => 'The ID front may not be greater than 2048 kilobytes.',
 
-            'id_back.image' => 'Заднее фото удостоверения должно быть изображением.',
-            'id_back.mimes' => 'Заднее фото удостоверения должно быть формата jpeg, png, jpg, gif или svg.',
-            'id_back.max' => 'Размер заднего фото удостоверения не должен превышать 2048 КБ.',
+            'id_back.image' => 'The ID back must be an image.',
+            'id_back.mimes' => 'The ID back must be a file of type: jpeg, png, jpg, gif, svg.',
+            'id_back.max' => 'The ID back may not be greater than 2048 kilobytes.',
 
-            'passport.image' => 'Фото паспорта должно быть изображением.',
-            'passport.mimes' => 'Фото паспорта должно быть формата jpeg, png, jpg, gif или svg.',
-            'passport.max' => 'Размер фото паспорта не должен превышать 2048 КБ.',
+            'passport.image' => 'The passport must be an image.',
+            'passport.mimes' => 'The passport must be a file of type: jpeg, png, jpg, gif, svg.',
+            'passport.max' => 'The passport may not be greater than 2048 kilobytes.',
 
-            'selfie.image' => 'Селфи должно быть изображением.',
-            'selfie.mimes' => 'Селфи должно быть формата jpeg, png, jpg, gif или svg.',
-            'selfie.max' => 'Размер селфи не должен превышать 2048 КБ.',
+            'selfie.image' => 'The selfie must be an image.',
+            'selfie.mimes' => 'The selfie must be a file of type: jpeg, png, jpg, gif, svg.',
+            'selfie.max' => 'The selfie may not be greater than 2048 kilobytes.',
 
-            'job_title.string' => 'Название работы должно быть строкой.',
-            'job_title.max' => 'Название работы не должно превышать 255 символов.',
+            'additional_document.mimes' => 'The additional document must be a file of type: jpeg, png, jpg, gif, svg, pdf.',
+            'additional_document.max' => 'The additional document may not be greater than 2048 kilobytes.',
 
-            'employer_name.string' => 'Название работодателя должно быть строкой.',
-            'employer_name.max' => 'Название работодателя не должно превышать 255 символов.',
+            'job_title.string' => 'The job title must be a string.',
+            'job_title.max' => 'The job title may not be greater than 255 characters.',
 
-            'employment_length.integer' => 'Длина занятости должна быть целым числом.',
-            'employment_length.min' => 'Длина занятости не может быть меньше 0.',
-            'employment_length.max' => 'Длина занятости не должна превышать 100 лет.',
+            'employer_name.string' => 'The employer name must be a string.',
+            'employer_name.max' => 'The employer name may not be greater than 255 characters.',
 
-            'salary.numeric' => 'Зарплата должна быть числом.',
-            'salary.min' => 'Зарплата не может быть отрицательной.',
-            'salary.max' => 'Зарплата не может превышать 999,999.99.',
+            'employment_length.integer' => 'The employment length must be an integer.',
+            'employment_length.min' => 'The employment length must be at least 0.',
+            'employment_length.max' => 'The employment length may not be greater than 100.',
+
+            'salary.numeric' => 'The salary must be a number.',
+            'salary.min' => 'The salary must be at least 0.',
+            'salary.max' => 'The salary may not be greater than 999,999.99.',
         ];
     }
 }

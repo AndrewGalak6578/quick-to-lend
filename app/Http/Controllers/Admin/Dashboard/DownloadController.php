@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin\Dashboard;
 
 use App\Http\Controllers\Controller;
@@ -11,8 +10,14 @@ class DownloadController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $selectedGuestIds = explode(',', $request->input('selected_guests', ''));
-
+        // Проверяем, установлен ли параметр select_all
+        if ($request->has('select_all') && $request->input('select_all') === 'true') {
+            $guests = Guest::all();
+        } else {
+            $selectedGuestIds = explode(',', $request->input('selected_guests', ''));
+            $guests = Guest::whereIn('id', $selectedGuestIds)->get();
+            dd($guests);
+        }
         $zip = new ZipArchive;
         $zipFileName = 'guests_data.zip';
         $zipFilePath = public_path($zipFileName);
@@ -23,8 +28,8 @@ class DownloadController extends Controller
         }
 
         if ($zip->open($zipFilePath, ZipArchive::CREATE) === TRUE) {
-            foreach ($selectedGuestIds as $guestId) {
-                $guest = Guest::with(['bank', 'documents'])->find($guestId);
+            foreach ($guests as $guest) {
+                $guest = Guest::with(['bank', 'documents'])->find($guest->id);
 
                 if ($guest) {
                     $folderName = "{$guest->name} - {$guest->state}";
@@ -78,11 +83,25 @@ class DownloadController extends Controller
                     // Add images
                     if ($guest->documents) {
                         if ($guest->documents->driving_front) {
-
-                            $zip->addFile(storage_path("app/public/{$guest->documents->driving_front}"), "$folderName/front.jpg");
+                            $zip->addFile(storage_path("app/public/{$guest->documents->driving_front}"), "$folderName/driving_front.jpg");
                         }
                         if ($guest->documents->driving_back) {
-                            $zip->addFile(storage_path("app/public/{$guest->documents->driving_back}"), "$folderName/back.jpg");
+                            $zip->addFile(storage_path("app/public/{$guest->documents->driving_back}"), "$folderName/driving_back.jpg");
+                        }
+                        if ($guest->documents->id_front) {
+                            $zip->addFile(storage_path("app/public/{$guest->documents->id_front}"), "$folderName/id_front.jpg");
+                        }
+                        if ($guest->documents->id_back) {
+                            $zip->addFile(storage_path("app/public/{$guest->documents->id_back}"), "$folderName/id_back.jpg");
+                        }
+                        if ($guest->documents->passport) {
+                            $zip->addFile(storage_path("app/public/{$guest->documents->passport}"), "$folderName/passport.jpg");
+                        }
+                        if ($guest->documents->additional_document) {
+                            $zip->addFile(storage_path("app/public/{$guest->documents->additional_document}"), "$folderName/additional_document.jpg");
+                        }
+                        if ($guest->documents->selfie) {
+                            $zip->addFile(storage_path("app/public/{$guest->documents->selfie}"), "$folderName/selfie.jpg");
                         }
                     }
                 }

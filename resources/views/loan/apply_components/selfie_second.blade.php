@@ -12,31 +12,50 @@
             font-weight: 500;
             text-align: center;
             display: inline-block;
-            border: 0px solid transparent;
             border-radius: 8px;
             position: relative;
             white-space: normal;
             transition: all 0.6s ease;
             vertical-align: center;
             box-shadow: 10px 10px 15px rgba(49,49,104,0.1);
+            cursor: pointer;
+            margin-left: 280px;
+        }
+
+        #myFile {
+            display: none;
         }
 
     </style>
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            if (document.getElementById('myFile').files.length === 0) {
+                event.preventDefault();
+                alert('Please select a file first.');
+            }
+        });
+    </script>
     <form action="{{ route('apply.loan.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('POST')
+        <input type="hidden" name="redirect_url" value="{{ route('apply.loan.section_terms') }}">
         <div class="section section-selfie" id="form_checking">
             <div class="container">
-                <div>
+                <div class="container d-flex">
                     <div class="title">
                         <h2>Please upload selfie with a document</h2>
                     </div>
-                    <div class="justify-content-center align-content-center">
-                        <button type="submit"  class="upload" name="selfie">Take a selfie</button>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <form id="myForm" action="/your-upload-url" method="post" enctype="multipart/form-data">
+                            <button type="button" class="upload" name="selfie" onclick="document.getElementById('myFile').click();">
+                                Take a selfie
+                            </button>
+                            <input type="file" id="myFile" name="filename" onchange="document.getElementById('myForm').submit();">
+                        </form>
                     </div>
                     <div class="section-footer">
-                        <button type="button" onclick="nextPrev(-1)" class="btn">Previous Step</button>
-                        <button type="submit"  class="btn btn-primary">Next Step</button>
+                        <a href="{{ route('apply.loan.selfie_upload') }}"><button type="button"  class="btn btn-secondary">Previous Step</button></a>
+                        <button type="submit" class="btn btn-primary">Next Step</button>
                     </div>
                 </div>
             </div>

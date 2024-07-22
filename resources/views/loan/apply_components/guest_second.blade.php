@@ -2,6 +2,12 @@
 
 {{--5--}}
 @section('content')
+    <style>
+        .error-message {
+            color: #9c4b45;
+            margin-top: 5px;
+        }
+    </style>
     <form action="{{ route('apply.loan.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="redirect_url" value="{{ route('apply.loan.residential_info') }}">
@@ -14,23 +20,23 @@
                         <div class="form-group">
                             <label>Home Zip code?</label>
                             <input id="zipcode" type="tel" name="zip_code" class="form-control" autocomplete="off"/>
-                            <div class="messages"></div>
+                            <div id="zipcode-messages" class="messages"></div>
                         </div>
                         <div class="form-group">
                             <label>Street address</label>
                             <input onkeyup="toUpperCase(event)" id="housestreet" type="text" name="address"
                                    class="form-control"/>
-                            <div class="messages"></div>
+                            <div id="housestreet-messages" class="messages"></div>
                         </div>
                         <div class="form-group">
                             <label>City</label>
                             <input id="city" type="text" name="city" class="form-control"/>
-                            <div class="messages"></div>
+                            <div id="city-messages" class="messages"></div>
                         </div>
                         <div class="form-group">
                             <label>County</label>
-                            <input id="county" type="text" name="country" class="form-control"/>
-                            <div class="messages"></div>
+                            <input id="county" type="text" name="county" class="form-control"/>
+                            <div id="county-messages" class="messages"></div>
                         </div>
                         <div class="form-group">
                             <label>State</label>
@@ -91,12 +97,78 @@
                         </div>
 
                         <div class="section-footer">
-                            <button type="button" onclick="nextPrev(-1)" class="btn">Previous Step</button>
-                            <button type="submit"  class="btn btn-primary">Next Step</button>
+                            <a href="{{ route('apply.loan.guest_info') }}"><button type="button" class="btn btn-secondary">Previous Step</button></a>
+                            <a ><button type="submit" class="btn btn-primary">Next Step</button></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </form>
+    <script>
+        function showErrorMessage(elementId, message) {
+            const messagesDiv = document.getElementById(elementId);
+            messagesDiv.innerHTML = ''; // Clear previous messages
+
+            if (message) {
+                const errorMessage = document.createElement('div');
+                errorMessage.classList.add('error-message');
+                errorMessage.textContent = message;
+                messagesDiv.appendChild(errorMessage);
+            }
+        }
+
+        document.getElementById('zipcode').addEventListener('input', function () {
+            const zipCode = this.value;
+            const zipCodePattern = /^\d{5}(?:[-\s]\d{4})?$/;
+            let message = '';
+
+            if (zipCode && !zipCodePattern.test(zipCode)) {
+                message = 'Zip code does not appear to be valid';
+            }
+
+            showErrorMessage('zipcode-messages', message);
+        });
+
+        document.getElementById('housestreet').addEventListener('input', function () {
+            const address = this.value;
+            const addressPattern = /^.{1,255}$/;
+            let message = '';
+
+            if (address && !addressPattern.test(address)) {
+                message = 'Street address does not appear to be valid';
+            }
+
+            showErrorMessage('housestreet-messages', message);
+        });
+
+        document.getElementById('city').addEventListener('input', function () {
+            const city = this.value;
+            const minLength = 2;
+            let message = '';
+
+            if (city && city.length < minLength) {
+                message = 'City or town is too short (minimum is 2 characters)';
+            }
+
+            showErrorMessage('city-messages', message);
+        });
+
+        document.getElementById('county').addEventListener('input', function () {
+            const county = this.value;
+            const minLength = 3;
+            let message = '';
+
+            if (county && county.length < minLength) {
+                message = 'County is too short (minimum is 3 characters)';
+            }
+
+            showErrorMessage('county-messages', message);
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Your other scripts that need to run on DOMContentLoaded
+        });
+    </script>
 @endsection
+

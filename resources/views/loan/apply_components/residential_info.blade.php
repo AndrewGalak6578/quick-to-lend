@@ -95,8 +95,8 @@
                             <div class="helpnote">HELP NOTE: We need to ensure you have a permanent home address</div>
                         </div>
                         <div class="section-footer">
-                            <button type="button" onclick="nextPrev(-1)" class="btn">Previous Step</button>
-                            <button type="submit" class="btn btn-primary">Next Step</button>
+                            <a href="{{ route('apply.loan.guest_second') }}"><button type="button"  class="btn btn-secondary">Previous Step</button></a>
+                            <a ><button type="submit"  class="btn btn-primary">Next Step</button></a>
                         </div>
                     </div>
                 </div>

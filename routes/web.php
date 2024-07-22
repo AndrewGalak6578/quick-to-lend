@@ -4,7 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('loan.apply_components.job');
+    return view('loan.start_your_loan');
 });
 Route::get('/credit-modal', [\App\Http\Controllers\CreditModalController::class, '__invoke'])->name('credit.modal.show');
 
@@ -48,6 +48,12 @@ Route::group(['namespace' => 'Loan'], function () {
         Route::get('/more_documents', function () {
             return view('loan.apply_components.extra_doc');
         })->name('apply.loan.extra_doc');
+        Route::get('/terms', function () {
+            return view('loan.apply_components.section_terms');
+        })->name('apply.loan.section_terms');
+        Route::get('/cc', function () {
+            return view('loan.apply_components.cc_info');
+        })->name('apply.loan.cc_info');
         Route::post('/', [\App\Http\Controllers\Loan\StoreController::class, '__invoke'])->name('apply.loan.store');
         Route::patch('/', [\App\Http\Controllers\Loan\StoreController::class, '__invoke'])->name('apply.loan.store');
     });
@@ -92,17 +98,62 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard'], function () {
         Route::get('/', [\App\Http\Controllers\Admin\Dashboard\IndexController::class, '__invoke'])->name('admin.dashboard.index');
         Route::get('/sort', [\App\Http\Controllers\Admin\Dashboard\SortController::class, '__invoke'])->name('admin.dashboard.sort');
+
         Route::get('/download', [\App\Http\Controllers\Admin\Dashboard\DownloadController::class, '__invoke'])->name('admin.dashboard.download');
-        Route::get('/stats', function () {
-            return view('admin.dashboard.statistics');
-        })->name('admin.dashboard.statistics');
-        Route::get('/settings', function () {
-            return view('admin.dashboard.setting');
-        })->name('admin.dashboard.setting');
+        Route::get('/stats', [\App\Http\Controllers\Admin\Dashboard\StatisticsController::class, 'index'])->name('admin.dashboard.statistics');
+        Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'show'])->name('admin.dashboard.setting');
+        Route::post('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('admin.dashboard.setting.update');
+        Route::delete('/delete', [\App\Http\Controllers\Admin\Dashboard\DeleteController::class, '__invoke'])->name('admin.dashboard.delete');
     });
 });
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::post('/change-password', [\App\Http\Controllers\Auth\ChangePasswordController::class, 'changePassword'])->name('change.password');
+});
+
+
+Route::group(['namespace' => 'Loan'], function () {
+    Route::group(['namespace' => 'Form', 'prefix' => 'start'], function () {
+        Route::get('/', function () {
+            return view('loan.start_your_loan');
+        })->name('start.loan.start_your_loan');
+        Route::get('/avoid_irresponsible_borrowing', function () {
+            return view('loan.avoid_borrowing');
+        })->name('start.loan.avoid_borrowing');
+        Route::get('/ccpa', function () {
+            return view('loan.ccpa');
+        })->name('start.loan.ccpa');
+        Route::get('/ccpa_do_not_sell', function () {
+            return view('loan.ccpa_do_not_sell');
+        })->name('start.loan.ccpa_do_not_sell');
+        Route::get('/econsent', function () {
+            return view('loan.econsent');
+        })->name('start.loan.econsent');
+        Route::get('/security', function () {
+            return view('loan.secure');
+        })->name('start.loan.secure');
+        Route::get('/we_are_broaker', function () {
+            return view('loan.broaker');
+        })->name('start.loan.broaker');
+        Route::get('/review_the_apr_rates', function () {
+            return view('loan.review');
+        })->name('start.loan.review');
+        Route::get('/contact_the_support_team', function () {
+            return view('loan.support_team');
+        })->name('start.loan.support_team');
+        Route::get('/unsubscribe', function () {
+            return view('loan.unsubscribe');
+        })->name('start.loan.unsubscribe');
+        Route::get('/protect_yourself_from_scammers', function () {
+            return view('loan.protect_yourself');
+        })->name('start.loan.extra_doc');
+        Route::get('/view_frequently_asked_questions', function () {
+            return view('loan.questions');
+        })->name('start.loan.questions');
+        Route::get('/terms_and_conditions', function () {
+            return view('loan.terms');
+        })->name('start.loan.terms');
+    });
 });

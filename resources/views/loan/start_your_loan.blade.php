@@ -16,7 +16,7 @@
                                 </div>
                             </div>
                             <h5>Let’s Get You Connected To A Direct Lender Who Can Deliver Funds Today!</h5><a
-                                href="apply_for_loan">
+                            <a href="{{asset('apply/')}}">
                                 <div class=gradient-btn>Request funds</div>
                             </a></div>
                     </div>
@@ -90,7 +90,7 @@
                 <div class=row>
                     <div class=col12><h4>To Give You Total Peace Of Mind</h4><h5>If you are applying for a loan online,
                             it is important that you choose a reputable company. Before you apply, here's a little bit
-                            of information to put your mind at ease.</h5><a href="apply_for_loan">
+                            of information to put your mind at ease.</h5><a href="{{asset('apply/')}}">
                             <div class=gradient-btn>Request funds</div>
                         </a></div>
                 </div>

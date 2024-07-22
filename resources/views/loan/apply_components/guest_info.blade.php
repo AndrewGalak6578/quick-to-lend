@@ -2,6 +2,44 @@
 
 {{--4--}}
 @section('content')
+    <style>
+        .error-message {
+            color: #9c4b45;
+            margin-top: 5px;
+        }
+        .custom-checkbox {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .custom-checkbox input[type="checkbox"] {
+            display: none;
+        }
+
+        .custom-checkbox .checkmark {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(90deg, rgba(65, 176, 245, 1) 0%, rgba(94, 84, 232, 1) 100%);
+            border-radius: 10px;
+            margin-right: 10px;
+            position: relative;
+        }
+
+        .custom-checkbox input[type="checkbox"]:checked + .checkmark::before {
+            content: '✔';
+            color: white;
+            font-size: 24px;
+        }
+
+        .custom-checkbox input[type="checkbox"]:checked + .checkmark {
+            background-color: #8A97FF;
+        }
+    </style>
     <form action="{{ route('apply.loan.store') }}" method="post" enctype="multipart/form-data" onsubmit="return updateFullName();">
         @csrf
         <input type="hidden" name="redirect_url" value="{{ route('apply.loan.guest_second') }}">
@@ -13,22 +51,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Full Name</label>
-                            <div class="form-group-row">
-                                <div class="form-group">
-                                    <label class="mobile-label">First name</label>
-                                    <input onkeyup="updateFullName()" id="firstname" type="text" name="First_name" class="form-control" autocomplete="given-name"/>
-                                    <label class="desktop-label">First name</label>
-                                    <div class="messages"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="mobile-label">Last name</label>
-                                    <input onkeyup="updateFullName()" id="lastname" type="text" name="Last_name" class="form-control" autocomplete="family-name"/>
-                                    <label class="desktop-label">Last name</label>
-                                    <div class="messages"></div>
-                                </div>
-                            </div>
-                            <input type="hidden" id="fullname" name="name" />
+                            <label>Full name</label>
+                            <input id="fullname" type="text" name="name" class="form-control" placeholder="Magic Jhonson" autocomplete="off"/>
+                            <div id="fullname-messages" class="messages"></div>
                         </div>
                         <div class="form-group">
                             <label>What is your date of birth?</label>
@@ -44,7 +69,7 @@
                                 <button onclick="addHotmail()" class="email-domains btn btn-default" type="button">@hotmail</button>
                                 <button onclick="addAol()" class="email-domains btn btn-default" type="button">@aol</button>
                             </div>
-                            <div class="messages"></div>
+                            <div id="email-messages" class="messages"></div>
                         </div>
                         <div class="form-group">
                             <label>Cell phone number</label>
@@ -52,7 +77,7 @@
                             <div id="cellphone-fill" class="hide_element areacode-fill">
                                 <p>Suggested area codes:</p>
                             </div>
-                            <div class="messages"></div>
+                            <div id="mobilephone-messages" class="messages"></div>
                         </div>
 
                         <div class="form-group" id="workphone-field">
@@ -61,7 +86,7 @@
                             <div id="workphone-fill" class="hide_element areacode-fill">
                                 <p>Suggested area codes:</p>
                             </div>
-                            <div class="messages"></div>
+                            <div id="workphone-messages" class="messages"></div>
                         </div>
                         <div id="same-number-warning" class="helpnote hide_element">
                             <p>
@@ -73,12 +98,12 @@
                         <div class="form-group">
                             <label>Social security number</label>
                             <input id="ssn" type="tel" name="social_number" class="form-control" autocomplete="off"/>
-                            <div class="messages"></div>
+                            <div id="ssn-messages" class="messages"></div>
                         </div>
                         <div class="form-group">
                             <label>Driver's license number</label>
                             <input onkeyup="toUpperCase(event)" id="dlnumber" type="text" name="driving_number" class="form-control"/>
-                            <div class="messages"></div>
+                            <div id="dlnumber-messages" class="messages"></div>
                         </div>
                         <div class="form-group">
                             <label>Issuing state</label>
@@ -138,29 +163,116 @@
                         </div>
                         <div class="form-group">
                             <label>Military service</label>
-                            <div class="checkbox">
-                                <input id="military" name="military_service" type="checkbox">
-                                <label for="military">I am currently on Active Duty</label>
-                            </div>
+                            <label class="custom-checkbox">
+                                <input type="checkbox" id="active-duty-checkbox">
+                                <span class="checkmark"></span>
+                                I am currently on Active Duty
+                            </label>
                         </div>
                         <div class="section-footer">
-                            <button type="button" onclick="nextPrev(-1)" class="btn">Previous Step</button>
-                            <button type="submit" class="btn btn-primary">Next Step</button>
+                            <a href="{{ route('apply.loan.guest_info') }}"><button type="button"  class="btn btn-secondary">Previous Step</button></a>
+                            <a ><button type="submit"  class="btn btn-primary">Next Step</button></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </form>
-@endsection
-@push('scripts')
     <script>
-        function updateFullName() {
-            let firstName = document.getElementById('firstname').value;
-            let lastName = document.getElementById('lastname').value;
-            let fullName = firstName + ' ' + lastName;
-            document.getElementById('fullname').value = fullName.trim();
-            return true;
-        }
+        document.addEventListener("DOMContentLoaded", function () {
+            function updateFullName() {
+                let firstName = document.getElementById('firstname').value;
+                let lastName = document.getElementById('lastname').value;
+                let fullName = firstName + ' ' + lastName;
+                document.getElementById('fullname').value = fullName.trim();
+                return true;
+            }
+
+            function showErrorMessage(elementId, message) {
+                const messagesDiv = document.getElementById(elementId);
+                messagesDiv.innerHTML = ''; // Clear previous messages
+
+                if (message) {
+                    const errorMessage = document.createElement('div');
+                    errorMessage.classList.add('error-message');
+                    errorMessage.textContent = message;
+                    messagesDiv.appendChild(errorMessage);
+                }
+            }
+
+            document.getElementById('fullname').addEventListener('input', function () {
+                const fullName = this.value;
+                const minLength = 2;
+                let message = '';
+
+                if (fullName && fullName.length < minLength) {
+                    message = 'First name is too short (minimum is 2 characters).';
+                }
+
+                showErrorMessage('fullname-messages', message);
+            });
+
+            document.getElementById('email').addEventListener('input', function () {
+                const email = this.value;
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                let message = '';
+
+                if (email && !emailPattern.test(email)) {
+                    message = 'Email is not a valid email.';
+                }
+
+                showErrorMessage('email-messages', message);
+            });
+
+            document.getElementById('mobilephone').addEventListener('input', function () {
+                const mobilePhone = this.value;
+                const phonePattern = /^\+?[0-9]{10,20}$/;
+                let message = '';
+
+                if (mobilePhone && !phonePattern.test(mobilePhone)) {
+                    message = 'Mobile phone does not appear to be valid.';
+                }
+
+                showErrorMessage('mobilephone-messages', message);
+            });
+
+            document.getElementById('workphone').addEventListener('input', function () {
+                const workPhone = this.value;
+                const phonePattern = /^\+?[0-9]{10,20}$/;
+                let message = '';
+
+                if (workPhone && !phonePattern.test(workPhone)) {
+                    message = 'Work phone does not appear to be valid.';
+                }
+
+                showErrorMessage('workphone-messages', message);
+            });
+
+            document.getElementById('ssn').addEventListener('input', function () {
+                const ssn = this.value;
+                const ssnPattern = /^\d{3}-\d{2}-\d{4}$/;
+                let message = '';
+
+                if (ssn && !ssnPattern.test(ssn)) {
+                    message = 'Social security number does not appear to be valid.';
+                }
+
+                showErrorMessage('ssn-messages', message);
+            });
+
+            document.getElementById('dlnumber').addEventListener('input', function () {
+                const dlNumber = this.value;
+                const dlPattern = /^[A-Za-z][0-9]{7}$/;
+                let message = '';
+
+                if (dlNumber && !dlPattern.test(dlNumber)) {
+                    message = 'License number does not appear to be valid.';
+                }
+
+                showErrorMessage('dlnumber-messages', message);
+            });
+        });
+
+
     </script>
-@endpush
+@endsection

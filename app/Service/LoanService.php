@@ -61,39 +61,61 @@ class LoanService
             if ($hasBankData) {
                 $bankData['guest_id'] = $guest->id;
                 if ($guest->bank_id) {
+                    $bank = BankData::where('guest_id', $guest->id)->first();
                     foreach ($bankData as $key => $value) {
                         if ($value !== null) {
-                            $bank = BankData::update([$key => $value]);
+                            $bank->{$key} = $value;
                         }
                     }
+                    $bank->save();
                 } else {
                     $bank = BankData::create($bankData);
                 }
-
 
                 $guest->update(['bank_id' => $bank->id]);
             }
 
             if ($this->hasData($documentData)) {
+                // Получаем существующую запись документа, если она есть
+                $existingDocument = Document::where('guest_id', $guest->id)->first();
+
                 foreach ($documentData as $key => $file) {
                     if ($file instanceof \Illuminate\Http\UploadedFile && $file->isValid()) {
+                        // Сохраняем файл и обновляем путь в $documentData
                         $path = Storage::disk('public')->put('/documents', $file);
                         $documentData[$key] = $path;
+                    } elseif ($existingDocument) {
+                        // Если файл не загружен, оставляем старое значение, если оно есть
+                        $documentData[$key] = $existingDocument->{$key};
                     }
                 }
+
+                // Заполняем идентификатор гостя
                 $documentData['guest_id'] = $guest->id;
-                $documents = Document::firstOrCreate(["guest_id" => $guest->id], $documentData);
+
+                if ($existingDocument) {
+                    // Обновляем существующую запись документа
+                    $existingDocument->update($documentData);
+                    $documents = $existingDocument;
+                } else {
+                    // Создаем новую запись документа
+                    $documents = Document::create($documentData);
+                }
+
+                // Обновляем идентификатор документов в записи гостя
                 $guest->update(['documents_id' => $documents->id]);
             }
 
             if ($this->hasData($jobData)) {
                 $jobData['guest_id'] = $guest->id;
                 if ($guest->job_info_id) {
+                    $jobInfo = JobInfo::where('guest_id', $guest->id)->first();
                     foreach ($jobData as $key => $value) {
                         if ($value !== null) {
-                            $jobInfo = JobInfo::update([$key => $value]);
+                            $jobInfo->{$key} = $value;
                         }
                     }
+                    $jobInfo->save();
                 } else {
                     $jobInfo = JobInfo::create($jobData);
                 }

@@ -30,21 +30,23 @@
         <th scope="col" class="align-content-center">Заметки</th>
     </tr>
     </thead>
-    <tbody class="border-top ">
+    <tbody class="border-top fw-semibold">
     @foreach($guests as $guest)
-        <tr data-id="{{ $guest->id }}">
+        <tr data-guest="{{ json_encode($guest) }}" data-documents="{{ json_encode($guest->documents) }}" data-bank="{{ json_encode($guest->bank) }}" data-job="{{ json_encode($guest->jobInfo) }}">
             <td>
                 <div class="form-check">
                     <input class="form-check-input row-checkbox" type="checkbox" name="select">
                 </div>
             </td>
             <td>{{ $guest->id }}</td>
-            <td>{{ $guest->name }}</td>
+            <td class="guest-name" data-bs-toggle="modal" data-bs-target="#staticBackdrop">{{ $guest->name }}</td>
             <td>{{ $guest->state }}</td>
             <td>{{ $guest->date_of_birth }}</td>
             <td>{{ $guest->zip_code }}</td>
             <td>{{ optional($guest->bank)->card_number ? '+' : '-' }}</td>
-            <td>{{ optional($guest->documents)->id_front ? '+' : '-' }}</td>
+            <td>
+                {{ optional($guest->documents)->driving_front || optional($guest->documents)->driving_back || optional($guest->documents)->id_front || optional($guest->documents)->id_back || optional($guest->documents)->passport || optional($guest->documents)->additional_document ? '+' : '-' }}
+            </td>
             <td>{{ optional($guest->documents)->selfie ? '+' : '-' }}</td>
             <td>{{ $guest->created_at }}</td>
             <td ondblclick="makeEditable(this, '{{ $guest->id }}')">
